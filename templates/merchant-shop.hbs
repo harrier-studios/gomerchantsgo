@@ -1,0 +1,54 @@
+<div class="merchants-shop">
+  {{#if errorKey}}
+    <p class="merchants-error">{{localize errorKey}}</p>
+  {{/if}}
+
+  {{#if welcomeMessage}}
+    <p class="merchants-welcome">{{welcomeMessage}}</p>
+  {{/if}}
+
+  <div class="merchants-meta">
+    {{#if showBuyerSelect}}
+      <div class="merchants-buyer">
+        <label for="merchants-buyer-select">{{localize "MERCHANTS.Buyer"}}</label>
+        <select id="merchants-buyer-select" data-action="set-buyer">
+          {{#each buyerOptions}}
+            <option value="{{this.id}}" {{#if this.selected}}selected{{/if}}>{{this.label}}</option>
+          {{/each}}
+        </select>
+      </div>
+    {{/if}}
+    <div class="merchants-wallet">
+      <strong>{{localize "MERCHANTS.Wallet"}}:</strong>
+      {{walletDisplay}}
+      {{localize "MERCHANTS.Gp"}}
+    </div>
+  </div>
+
+  <table class="merchants-stock">
+    <thead>
+      <tr>
+        <th>{{localize "MERCHANTS.Item"}}</th>
+        <th>{{localize "MERCHANTS.Price"}}</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#each items}}
+        <tr data-item-id="{{this.id}}">
+          <td>{{this.name}}</td>
+          <td>{{this.priceDisplay}}</td>
+          <td>
+            <button type="button" class="button" data-action="buy" data-item-id="{{this.id}}" {{#unless ../canBuy}}disabled{{/unless}}>
+              {{localize "MERCHANTS.Buy"}}
+            </button>
+          </td>
+        </tr>
+      {{else}}
+        <tr>
+          <td colspan="3">{{localize "MERCHANTS.Stock"}}: —</td>
+        </tr>
+      {{/each}}
+    </tbody>
+  </table>
+</div>
