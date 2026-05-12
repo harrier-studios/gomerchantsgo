@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>PF2e Merchant Stock</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:ital,wght@0,400;0,600;1,400&family=Source+Sans+3:wght@400;600&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="css/app.css" />
+  </head>
+  <body>
+    <div class="layout">
+      <header class="hero">
+        <h1>Merchant stock</h1>
+        <p class="lede">
+          Pathfinder 2e–style inventory generator: pick a place, proprietor, shop focus, and purse size, then get SKUs and counts. Prices and levels are ballpark for play at the table, not a rules-perfect SRD mirror.
+        </p>
+      </header>
+
+      <section class="panel controls" aria-labelledby="controls-heading">
+        <h2 id="controls-heading">Parameters</h2>
+        <div class="grid">
+          <label class="field">
+            <span>Location</span>
+            <select id="paramLocation"></select>
+          </label>
+          <label class="field">
+            <span>Merchant ancestry</span>
+            <select id="paramRace"></select>
+          </label>
+          <label class="field">
+            <span>Store type</span>
+            <select id="paramStore"></select>
+          </label>
+          <label class="field">
+            <span>Shop wealth tier</span>
+            <select id="paramWealth"></select>
+          </label>
+          <label class="field">
+            <span>Settlement size</span>
+            <select id="paramSettlement"></select>
+          </label>
+          <label class="field">
+            <span>Reputation</span>
+            <select id="paramReputation"></select>
+          </label>
+          <label class="field">
+            <span>Stocking style</span>
+            <select id="paramStock"></select>
+          </label>
+          <label class="field">
+            <span>Rarity policy</span>
+            <select id="paramRarity"></select>
+          </label>
+          <label class="field">
+            <span>Market demand</span>
+            <select id="paramDemand"></select>
+          </label>
+          <label class="field">
+            <span>Arcane tilt</span>
+            <select id="paramArcane"></select>
+          </label>
+          <label class="field field-wide">
+            <span>Optional seed (repeatable stock)</span>
+            <div class="row">
+              <input type="text" id="paramSeed" placeholder="e.g. session-17-west-quarter" autocomplete="off" />
+              <button type="button" id="btnRandomSeed" class="btn secondary">Random seed</button>
+            </div>
+          </label>
+        </div>
+        <div class="actions">
+          <button type="button" id="btnGenerate" class="btn primary">Generate inventory</button>
+        </div>
+      </section>
+
+      <section class="panel results" aria-labelledby="results-heading">
+        <div class="results-head">
+          <h2 id="results-heading">Inventory</h2>
+          <div class="totals">
+            <span><strong id="totalSku">0</strong> SKUs</span>
+            <span>List total <strong id="totalGp">0 gp</strong></span>
+          </div>
+        </div>
+        <p class="meta" id="inventoryMeta"></p>
+        <div class="table-wrap">
+          <table class="inventory">
+            <thead>
+              <tr>
+                <th>Item</th>
+                <th class="num">Qty</th>
+                <th class="num">Unit</th>
+                <th class="num">Line</th>
+                <th class="num">Lvl</th>
+                <th>Rarity</th>
+                <th>Bulk</th>
+              </tr>
+            </thead>
+            <tbody id="inventoryBody"></tbody>
+          </table>
+        </div>
+        <p id="emptyState" class="empty" hidden>No rows yet.</p>
+      </section>
+
+      <footer class="foot">
+      </footer>
+    </div>
+
+    <script src="js/config.js"></script>
+    <script src="js/catalog.js"></script>
+    <script src="js/generator.js"></script>
+    <script src="js/main.js"></script>
+  </body>
+</html>

@@ -1,0 +1,267 @@
+:root {
+  --bg: #1a1512;
+  --panel: #241e1a;
+  --panel-edge: #3a322b;
+  --text: #e8e0d8;
+  --muted: #a89b8f;
+  --accent: #c9a227;
+  --accent-dim: #8a7020;
+  --danger: #c45c4a;
+  --radius: 10px;
+  --font-body: "Source Sans 3", system-ui, sans-serif;
+  --font-display: "Crimson Pro", Georgia, serif;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  font-family: var(--font-body);
+  font-size: 1rem;
+  line-height: 1.5;
+  color: var(--text);
+  background: radial-gradient(1200px 800px at 20% 0%, #2a221c 0%, var(--bg) 55%);
+}
+
+.layout {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 2rem 1.25rem 3rem;
+}
+
+.hero h1 {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: clamp(2rem, 4vw, 2.75rem);
+  letter-spacing: 0.02em;
+  margin: 0 0 0.5rem;
+  color: var(--accent);
+}
+
+.lede {
+  margin: 0;
+  max-width: 70ch;
+  color: var(--muted);
+  font-size: 1.05rem;
+}
+
+.panel {
+  margin-top: 1.75rem;
+  padding: 1.25rem 1.35rem;
+  background: var(--panel);
+  border: 1px solid var(--panel-edge);
+  border-radius: var(--radius);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.35);
+}
+
+.panel h2 {
+  font-family: var(--font-display);
+  font-size: 1.35rem;
+  margin: 0 0 1rem;
+  color: var(--text);
+}
+
+.grid {
+  display: grid;
+  gap: 1rem 1.25rem;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.field span {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.field-wide {
+  grid-column: 1 / -1;
+}
+
+select,
+input[type="text"] {
+  font: inherit;
+  color: var(--text);
+  background: #181310;
+  border: 1px solid var(--panel-edge);
+  border-radius: 6px;
+  padding: 0.5rem 0.65rem;
+}
+
+select:focus,
+input[type="text"]:focus {
+  outline: 2px solid var(--accent-dim);
+  outline-offset: 1px;
+}
+
+.row {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.row input[type="text"] {
+  flex: 1;
+  min-width: 200px;
+}
+
+.actions {
+  margin-top: 1.25rem;
+}
+
+.btn {
+  font: inherit;
+  font-weight: 600;
+  border-radius: 8px;
+  padding: 0.55rem 1.1rem;
+  border: 1px solid transparent;
+  cursor: pointer;
+}
+
+.btn.primary {
+  background: linear-gradient(180deg, #d4b03a, var(--accent-dim));
+  color: #1a1208;
+  border-color: #6e5a1e;
+}
+
+.btn.primary:hover {
+  filter: brightness(1.05);
+}
+
+.btn.secondary {
+  background: transparent;
+  color: var(--accent);
+  border-color: var(--accent-dim);
+}
+
+.btn.secondary:hover {
+  background: rgba(201, 162, 39, 0.12);
+}
+
+.results-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0.75rem;
+}
+
+.totals {
+  display: flex;
+  gap: 1.25rem;
+  color: var(--muted);
+  font-size: 0.95rem;
+}
+
+.totals strong {
+  color: var(--accent);
+}
+
+.meta {
+  margin: 0.5rem 0 1rem;
+  font-size: 0.92rem;
+  color: var(--muted);
+}
+
+.meta code {
+  font-size: 0.85em;
+  color: var(--text);
+  background: #181310;
+  padding: 0.1em 0.35em;
+  border-radius: 4px;
+}
+
+.table-wrap {
+  overflow-x: auto;
+  border-radius: 8px;
+  border: 1px solid var(--panel-edge);
+}
+
+.inventory {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.95rem;
+}
+
+.inventory th,
+.inventory td {
+  padding: 0.55rem 0.65rem;
+  text-align: left;
+  border-bottom: 1px solid #332b25;
+}
+
+.inventory th {
+  font-size: 0.78rem;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  color: var(--muted);
+  background: #181310;
+}
+
+.inventory tbody tr:hover {
+  background: rgba(201, 162, 39, 0.06);
+}
+
+.num {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+.rarity {
+  display: inline-block;
+  font-size: 0.78rem;
+  padding: 0.15em 0.45em;
+  border-radius: 4px;
+  text-transform: capitalize;
+}
+
+.rarity-common {
+  background: #2a3238;
+  color: #b8c4cc;
+}
+
+.rarity-uncommon {
+  background: #1f3a2e;
+  color: #8fd4a8;
+}
+
+.rarity-rare {
+  background: #342447;
+  color: #c4a8ff;
+}
+
+.empty {
+  margin: 1rem 0 0;
+  color: var(--muted);
+}
+
+.foot {
+  margin-top: 2rem;
+  font-size: 0.88rem;
+  color: var(--muted);
+}
+
+.foot code {
+  font-size: 0.9em;
+  color: var(--text);
+}
+
+@media (max-width: 520px) {
+  .layout {
+    padding: 1.25rem 1rem 2rem;
+  }
+}
