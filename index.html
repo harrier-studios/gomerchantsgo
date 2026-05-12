@@ -61,13 +61,73 @@
     </button>
   </div>
 </div>
-    <div id="screen-merchants"     class="screen"></div>
+
+<div id="screen-merchants" class="screen">
+  <div class="screen-header">
+    <div>
+      <h1>Merchants</h1>
+      <p class="screen-subtitle">3 saved</p>
+    </div>
+    <button class="btn-primary" onclick="showScreen('screen-merchant-new')">
+      <i class="ti ti-plus"></i> New Merchant
+    </button>
+  </div>
+
+  <div class="list-container">
+    <div class="list-header">
+      <span class="col-name">Name</span>
+      <span class="col-detail">Race</span>
+      <span class="col-detail">Type</span>
+      <span class="col-detail-wide">Settlement · Economy</span>
+      <span class="col-detail">Level</span>
+      <span class="col-rarity">Rarity</span>
+    </div>
+
+    <div class="list-row" onclick="showScreen('screen-merchant-result')">
+      <span class="col-name row-title">Durgin Ironmantle</span>
+      <span class="col-detail row-meta"><i class="ti ti-user"></i> Dwarf</span>
+      <span class="col-detail row-meta"><i class="ti ti-hammer"></i> Blacksmith</span>
+      <span class="col-detail-wide row-meta"><i class="ti ti-building"></i> City · Trade Hub</span>
+      <span class="col-detail row-meta"><i class="ti ti-level-bolt"></i> 1–8</span>
+      <span class="col-rarity"><span class="badge badge-uncommon">Uncommon</span></span>
+    </div>
+
+    <div class="list-row" onclick="showScreen('screen-merchant-result')">
+      <span class="col-name row-title muted">Unnamed Merchant</span>
+      <span class="col-detail row-meta"><i class="ti ti-user"></i> Human</span>
+      <span class="col-detail row-meta"><i class="ti ti-flask"></i> Alchemist</span>
+      <span class="col-detail-wide row-meta"><i class="ti ti-building"></i> Town · Frontier</span>
+      <span class="col-detail row-meta"><i class="ti ti-level-bolt"></i> 1–4</span>
+      <span class="col-rarity"><span class="badge badge-common">Common</span></span>
+    </div>
+
+    <div class="list-row" onclick="showScreen('screen-merchant-result')">
+      <span class="col-name row-title">Seraphine Voss</span>
+      <span class="col-detail row-meta"><i class="ti ti-user"></i> Elf</span>
+      <span class="col-detail row-meta"><i class="ti ti-wand"></i> Arcane Goods</span>
+      <span class="col-detail-wide row-meta"><i class="ti ti-building"></i> Metropolis · Academic</span>
+      <span class="col-detail row-meta"><i class="ti ti-level-bolt"></i> 3–12</span>
+      <span class="col-rarity"><span class="badge badge-rare">Rare</span></span>
+    </div>
+  </div>
+</div>
+
+<div id="screen-custom-data" class="screen">
+  <button onclick="goHome()">← Back</button>
+  <p>Custom Data screen — coming soon</p>
+</div>
+
+<div id="screen-settings" class="screen">
+  <button onclick="goHome()">← Back</button>
+  <p>Settings screen — coming soon</p>
+</div>
+<!--<div id="screen-merchants"     class="screen"></div>
     <div id="screen-merchant-new"  class="screen"></div>
     <div id="screen-merchant-result" class="screen"></div>
     <div id="screen-custom-data"   class="screen"></div>
     <div id="screen-custom-new"    class="screen"></div>
     <div id="screen-custom-existing" class="screen"></div>
-    <div id="screen-settings"      class="screen"></div>
+    <div id="screen-settings"      class="screen"></div> -->
   </div>
 
   <!-- Your scripts -->
