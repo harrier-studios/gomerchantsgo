@@ -16,3 +16,10 @@ function goHome() {
 }
 
 // END TEMPORARY BACK BUTTON
+
+function setFilterActive(btn, group) {
+  const allBtns = document.querySelectorAll('.filter-btn');
+  const groupBtns = Array.from(allBtns).filter(b => b.getAttribute('onclick').includes(group));
+  groupBtns.forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+}

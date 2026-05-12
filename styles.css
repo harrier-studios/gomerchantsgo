@@ -235,12 +235,17 @@ h1 {
   white-space: nowrap;
 }
 
+/* ─── Custom Data List ────────────────────────────────── */
+
 .col-detail {
-  flex: 1;
+  flex: 1.5;
   font-family: 'Inter', sans-serif;
   font-weight: 600;
   font-size: 11px;
   color: #6B7280;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .col-detail-wide {
@@ -298,3 +303,201 @@ h1 {
 .badge-uncommon { background: #1A2A33; color: #5B7F95; }
 .badge-rare { background: #332A12; color: #A07820; }
 .badge-unique { background: #2A1A3D; color: #8B5CF6; }
+
+/* ─── Stat Blocks ─────────────────────────────────────── */
+
+.stat-blocks {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 1.25rem;
+  flex-wrap: wrap;
+}
+
+.stat-block {
+  background: #23272E;
+  border: 0.5px solid #3A3F47;
+  border-radius: 8px;
+  padding: 10px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.stat-label {
+  font-size: 11px;
+  color: #6B7280;
+}
+
+.stat-value {
+  font-family: 'Inter', sans-serif;
+  font-weight: 600;
+  font-size: 15px;
+  color: #F2F4F6;
+}
+
+/* ─── Filter Bar ──────────────────────────────────────── */
+
+.filter-bar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 1.25rem;
+  flex-wrap: wrap;
+}
+
+.filter-group {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.filter-label {
+  font-size: 12px;
+  color: #6B7280;
+  margin-right: 2px;
+}
+
+.filter-btn {
+  font-family: 'Questrial', sans-serif;
+  font-size: 13px;
+  padding: 5px 12px;
+  border-radius: 6px;
+  border: 0.5px solid #3A3F47;
+  background: #23272E;
+  color: #9CA3AF;
+  cursor: pointer;
+}
+
+.filter-btn.active {
+  background: #1A2A33;
+  color: #5B7F95;
+  border-color: #5B7F95;
+  font-family: 'Inter', sans-serif;
+  font-weight: 600;
+}
+
+.filter-btn:hover:not(.active) {
+  border-color: #6B7280;
+  color: #F2F4F6;
+}
+
+.filter-divider {
+  width: 1px;
+  height: 20px;
+  background: #3A3F47;
+  margin: 0 4px;
+}
+
+/* ─── Inventory Columns ───────────────────────────────── */
+
+.col-item-name {
+  flex: 3;
+  font-family: 'Inter', sans-serif;
+  font-weight: 600;
+  font-size: 11px;
+  color: #6B7280;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  min-width: 0;
+}
+
+.col-qty {
+  flex: 0.5;
+  font-family: 'Inter', sans-serif;
+  font-weight: 600;
+  font-size: 11px;
+  color: #6B7280;
+  text-align: center;
+}
+
+.col-level {
+  flex: 0.6;
+  font-family: 'Inter', sans-serif;
+  font-weight: 600;
+  font-size: 11px;
+  color: #6B7280;
+  text-align: center;
+}
+
+.col-bulk {
+  flex: 0.6;
+  font-family: 'Inter', sans-serif;
+  font-weight: 600;
+  font-size: 11px;
+  color: #6B7280;
+  text-align: center;
+}
+
+.col-price {
+  flex: 1.2;
+  font-family: 'Inter', sans-serif;
+  font-weight: 600;
+  font-size: 11px;
+  color: #6B7280;
+  text-align: right;
+}
+
+/* ─── Category Headings ───────────────────────────────── */
+
+.category-heading {
+  font-family: 'Inter', sans-serif;
+  font-weight: 600;
+  font-size: 11px;
+  letter-spacing: 0.07em;
+  color: #5B7F95;
+  text-transform: uppercase;
+  padding: 0.75rem 0 0.4rem;
+  border-bottom: 0.5px solid #3A3F47;
+  margin-bottom: 4px;
+}
+
+/* ─── Secondary Button ────────────────────────────────── */
+
+.btn-secondary {
+  font-family: 'Inter', sans-serif;
+  font-weight: 600;
+  font-size: 13px;
+  background: none;
+  color: #1D9E75;
+  border: 1.5px solid #1D9E75;
+  border-radius: 8px;
+  padding: 9px 16px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.btn-secondary:hover {
+  background: #0D3D2E;
+}
+
+/* ─── Header Actions ──────────────────────────────────── */
+
+.header-actions {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+/* ─── Row meta alignment fixes ────────────────────────── */
+
+.col-qty.row-meta,
+.col-level.row-meta,
+.col-bulk.row-meta {
+  justify-content: center;
+  display: flex;
+}
+
+.col-price.row-meta {
+  justify-content: flex-end;
+  display: flex;
+}
+
+.list-header,
+.list-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}

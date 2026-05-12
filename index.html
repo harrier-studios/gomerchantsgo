@@ -258,17 +258,169 @@
       </div>
     </div>
 
-    <!-- ─── Merchant Result ───────────────────────────────── -->
-    <div id="screen-merchant-result" class="screen">
-      <button onclick="goHome()">← Back</button>
-      <p>Merchant result — coming soon</p>
+<!-- ─── Merchant Result ───────────────────────────────── -->
+<div id="screen-merchant-result" class="screen">
+  <div class="screen-header">
+    <div>
+      <h1>Durgin Ironmantle</h1>
+      <p class="screen-subtitle">Dwarf · Blacksmith · City · Trade Hub</p>
+    </div>
+    <div class="header-actions">
+      <button class="btn-secondary" onclick="showScreen('screen-merchant-new')">
+        <i class="ti ti-device-floppy"></i> Save
+      </button>
+      <button class="btn-primary">
+        <i class="ti ti-refresh"></i> Regenerate
+      </button>
+    </div>
+  </div>
+
+  <div class="stat-blocks">
+    <div class="stat-block">
+      <span class="stat-label">Currency</span>
+      <span class="stat-value">48 gp · 12 sp</span>
+    </div>
+    <div class="stat-block">
+      <span class="stat-label">Items</span>
+      <span class="stat-value">14</span>
+    </div>
+    <div class="stat-block">
+      <span class="stat-label">Max level</span>
+      <span class="stat-value">8</span>
+    </div>
+    <div class="stat-block">
+      <span class="stat-label">Rarity</span>
+      <span class="stat-value">Common · Uncommon</span>
+    </div>
+  </div>
+
+  <div class="filter-bar">
+    <div class="filter-group">
+      <span class="filter-label">Group by</span>
+      <button class="filter-btn active" onclick="setFilterActive(this, 'group')">Category</button>
+      <button class="filter-btn" onclick="setFilterActive(this, 'group')">Rarity</button>
+      <button class="filter-btn" onclick="setFilterActive(this, 'group')">Flat list</button>
+    </div>
+    <div class="filter-divider"></div>
+    <div class="filter-group">
+      <span class="filter-label">Sort by</span>
+      <button class="filter-btn active" onclick="setFilterActive(this, 'sort')">Level</button>
+      <button class="filter-btn" onclick="setFilterActive(this, 'sort')">Price</button>
+      <button class="filter-btn" onclick="setFilterActive(this, 'sort')">Name</button>
+    </div>
+  </div>
+
+  <div class="list-container">
+
+    <div class="list-header">
+      <span class="col-item-name">Item</span>
+      <span class="col-qty">Qty</span>
+      <span class="col-level">Level</span>
+      <span class="col-bulk">Bulk</span>
+      <span class="col-price">Price</span>
+      <span class="col-rarity">Rarity</span>
     </div>
 
-    <!-- ─── Custom Data List ──────────────────────────────── -->
-    <div id="screen-custom-data" class="screen">
-      <button onclick="goHome()">← Back</button>
-      <p>Custom data — coming soon</p>
+    <p class="category-heading">Weapons</p>
+    <div class="list-row">
+      <span class="col-item-name row-title">Dwarven War Axe</span>
+      <span class="col-qty row-meta">2</span>
+      <span class="col-level row-meta">4</span>
+      <span class="col-bulk row-meta">2</span>
+      <span class="col-price row-meta">80 gp</span>
+      <span class="col-rarity"><span class="badge badge-uncommon">Uncommon</span></span>
     </div>
+    <div class="list-row">
+      <span class="col-item-name row-title">Handaxe</span>
+      <span class="col-qty row-meta">6</span>
+      <span class="col-level row-meta">0</span>
+      <span class="col-bulk row-meta">1</span>
+      <span class="col-price row-meta">3 sp</span>
+      <span class="col-rarity"><span class="badge badge-common">Common</span></span>
+    </div>
+<div class="list-row">
+      <span class="col-item-name row-title">Light Hammer</span>
+      <span class="col-qty row-meta">8</span>
+      <span class="col-level row-meta">0</span>
+      <span class="col-bulk row-meta">1</span>
+      <span class="col-price row-meta">3 sp</span>
+      <span class="col-rarity"><span class="badge badge-common">Common</span></span>
+    </div>
+
+<!-- ─── Custom Data List ──────────────────────────────── -->
+<div id="screen-custom-data" class="screen">
+  <div class="screen-header">
+    <div>
+      <h1>Custom Data</h1>
+      <p class="screen-subtitle">4 items</p>
+    </div>
+    <div class="header-actions">
+      <button class="btn-secondary" onclick="showScreen('screen-custom-existing')">
+        <i class="ti ti-copy"></i> Create from Existing
+      </button>
+      <button class="btn-primary" onclick="showScreen('screen-custom-new')">
+        <i class="ti ti-plus"></i> New Item
+      </button>
+    </div>
+  </div>
+
+  <div class="list-container">
+    <div class="list-header">
+      <span class="col-item-name">Name</span>
+      <span class="col-detail">Type</span>
+      <span class="col-level">Level</span>
+      <span class="col-bulk">Bulk</span>
+      <span class="col-price">Price</span>
+      <span class="col-rarity">Rarity</span>
+    </div>
+
+    <div class="list-row" onclick="showScreen('screen-custom-new')">
+      <span class="col-item-name row-title">
+        Grimtooth's Gutting Knife
+      </span>
+      <span class="col-detail row-meta">Weapon</span>
+      <span class="col-level row-meta">3</span>
+      <span class="col-bulk row-meta">L</span>
+      <span class="col-price row-meta">30 gp</span>
+      <span class="col-rarity"><span class="badge badge-uncommon">Uncommon</span></span>
+    </div>
+
+    <div class="list-row" onclick="showScreen('screen-custom-new')">
+      <span class="col-item-name row-title">
+        Tincture of Fool's Courage
+      </span>
+      <span class="col-detail row-meta">Consumable</span>
+      <span class="col-level row-meta">2</span>
+      <span class="col-bulk row-meta">L</span>
+      <span class="col-price row-meta">6 gp</span>
+      <span class="col-rarity"><span class="badge badge-common">Common</span></span>
+    </div>
+
+    <div class="list-row" onclick="showScreen('screen-custom-new')">
+      <span class="col-item-name row-title">
+        Ironveil Cloak
+      </span>
+      <span class="col-detail row-meta">Worn Item</span>
+      <span class="col-level row-meta">5</span>
+      <span class="col-bulk row-meta">L</span>
+      <span class="col-price row-meta">150 gp</span>
+      <span class="col-rarity"><span class="badge badge-rare">Rare</span></span>
+    </div>
+
+    <div class="list-row" onclick="showScreen('screen-custom-new')">
+      <span class="col-item-name row-title">
+        Shortbow +1
+        <i class="ti ti-tool" style="font-size: 12px; color: #5B7F95; margin-left: 4px;" title="Modified from existing item"></i>
+      </span>
+      <span class="col-detail row-meta">Weapon</span>
+      <span class="col-level row-meta">2</span>
+      <span class="col-bulk row-meta">1</span>
+      <span class="col-price row-meta">35 gp</span>
+      <span class="col-rarity"><span class="badge badge-uncommon">Uncommon</span></span>
+    </div>
+
+  </div>
+</div>
 
     <!-- ─── Custom Data New Item ──────────────────────────── -->
     <div id="screen-custom-new" class="screen">
