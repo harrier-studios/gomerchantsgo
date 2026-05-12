@@ -19,6 +19,7 @@ const items = files.map(f => {
 const cleaned = items
     .filter(item => item.system?.level?.value !== undefined)
     .map(item => ({
+        id: item._id,
         name: item.name,
         img: item.img,
         type: item.type,
