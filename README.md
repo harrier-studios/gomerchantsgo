@@ -1,18 +1,62 @@
 # merchants
 
-Foundry VTT **v13** module: turn an actor’s inventory into a simple shop with GM configuration, a buy window, and **server-side (GM) purchase validation** over sockets.
+Foundry VTT **v13** module for actor-based merchant shops. Implementable sources live under **`src/`**; packaging tooling lives at the repo root.
 
-## Install (development)
+## Repository layout
 
-1. Clone this repo (or copy the folder) into your Foundry user data: `Data/modules/merchants` (the folder name must match the `id` in `module.json`).
-2. In Foundry, enable the **Merchants** module under **Manage Modules**.
+| Path | Purpose |
+|------|---------|
+| [`src/`](src/) | **Installable module** — `module.json`, `scripts/`, `templates/`, `styles/`, `lang/`, and [`src/README.md`](src/README.md) (Foundry-focused docs). |
+| [`tools/`](tools/) | Build / packaging helpers (not loaded by Foundry). |
+| [`dist/`](dist/) | Generated release archives (gitignored). |
+| [`project/docs/`](project/docs/) | Planning and other project docs. |
 
-## Quick use
+## Developing against Foundry
 
-1. As GM, open an actor (loot/container or any actor with items). Use **Configure merchant** on the sheet header to enable the shop and set a default price in **gp** (optional welcome text).
-2. Add items to that actor. Optionally set per-item price: on an item, set the module flag `price` to `{ "amount": 5 }` (gold pieces); otherwise the actor’s default price applies (0 gp is free).
-3. Set buyer funds: on the **buyer** character actor, set module flag `wallet` to `{ "gp": 10 }` (or adjust in the **Token** / actor data if you use a UI that edits flags).
-4. **Open shop** from the actor sheet (players only see the button meaningfully when the merchant is enabled; the GM can always preview).
-5. Purchases require an **active GM** online; the GM client runs validation and moves the item + deducts gold.
+Point Foundry at this folder:
 
-From a macro or the console: `game.merchants.openShop(actorIdOrActor, { buyerId: optionalId })`.
+- **Symlink** (recommended): `Data/modules/merchants` → the **`src`** directory in this repo (not the repo root), so `module.json` lives at `Data/modules/merchants/module.json`.
+
+Module behavior and UI are documented for GMs/players in [`src/README.md`](src/README.md).
+
+## Distribution tarball
+
+Releases should be built from **`src/`** so the archive root matches Foundry’s expected module layout (`module.json` at the top of the extracted folder).
+
+### Scripted pack (Windows, Linux, macOS)
+
+Requires [Node.js](https://nodejs.org/) and `tar` on your `PATH` (included on Windows 10+).
+
+```bash
+npm run pack
+```
+
+Writes `dist/<id>-v<version>.tar.gz` (values read from `src/module.json`). Equivalent:
+
+```bash
+node tools/pack-dist.mjs
+```
+
+Extract the archive **into** `Data/modules/merchants/` (folder name must match the module `id`).
+
+### One-liner without Node
+
+From the **repository root**:
+
+```bash
+mkdir -p dist
+tar -czf dist/merchants-v0.1.0.tar.gz -C src .
+```
+
+Replace `0.1.0` with the `version` field in `src/module.json`.
+
+### From git only (tracked `src/` tree)
+
+Creates an archive of the `src` tree at `HEAD` (paths inside the tarball match Foundry’s layout):
+
+```bash
+mkdir -p dist
+git archive --format=tar.gz -o dist/merchants-from-git.tar.gz HEAD:src
+```
+
+Uncommitted files under `src/` are not included until committed.

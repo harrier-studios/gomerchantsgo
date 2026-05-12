@@ -4,7 +4,7 @@
 
 ## Implementation checklist
 
-- [ ] Add `module.json` (v13 compat), scripts entry, lang stub, empty CSS
+- [ ] Add `src/module.json` (v13 compat), scripts entry, lang stub, empty CSS
 - [ ] Actor sheet header button + merchant flags + optional small config form
 - [ ] Application + Handlebars template: list stock, prices, currency display (read-only)
 - [ ] Socket protocol + server validation + item/currency updates + client feedback
@@ -44,15 +44,17 @@ flowchart LR
 
 ## Repo layout (greenfield)
 
-Today the repo only has [README.md](../../../README.md). Add a standard module tree:
+The installable module lives under [`src/`](../../../src/) (Foundry expects `module.json` at the module folder root). Repository docs: [README.md](../../../README.md).
 
 | Path | Purpose |
 |------|---------|
-| `module.json` | Manifest: `id`, `title`, `compatibility.minimum` = 13, `esmodules`, optional `styles` |
-| `scripts/` or `src/` | Entry `merchants.mjs` (or `.ts` if you add a build step—**plain ESM in `scripts/` is fine for v1**) |
-| `templates/` | Handlebars for shop window (item rows, totals, errors) |
-| `styles/merchants.css` | Layout for the shop app |
-| `lang/en.json` | i18n keys for labels |
+| `src/module.json` | Manifest: `id`, `title`, `compatibility.minimum` = 13, `esmodules`, optional `styles` |
+| `src/scripts/` | Entry `merchants.mjs` and helpers (plain ESM for v1) |
+| `src/templates/` | Handlebars for shop window (item rows, totals, errors) |
+| `src/styles/merchants.css` | Layout for the shop app |
+| `src/lang/en.json` | i18n keys for labels |
+
+At repo root: `tools/` for packaging (e.g. tarball into `dist/`), `project/docs/` for planning.
 
 Optional later: `packs/` for sample merchant macro, `assets/` for icons.
 
@@ -60,7 +62,7 @@ Optional later: `packs/` for sample merchant macro, `assets/` for icons.
 
 ### Phase 1 — Scaffold and GM configuration
 
-- **`module.json`**: register one `esmodule` entry; set `relationships.systems` empty or note “any” until you lock system support.
+- **`src/module.json`**: register one `esmodule` entry; set `relationships.systems` empty or note “any” until you lock system support.
 - **Boot**: `Hooks.once("init", …)` register `CONFIG.Actor` flags schema (if using `foundry.data.fields`) or document flag shape in code; `Hooks.once("ready", …)` for anything needing `game.actors`.
 - **GM affordance**: Minimal path to “this actor is a merchant”:
   - **Option A (fastest)**: Header button on eligible actor sheets (“Open as shop” / “Configure merchant”) via `Hooks.on("getActorSheetHeaderButtons", …)`.

@@ -1,0 +1,11 @@
+{
+  "name": "merchants-foundry-module",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "pack": "node tools/pack-dist.mjs"
+  },
+  "devDependencies": {
+    "archiver": "^7.0.1"
+  }
+}
