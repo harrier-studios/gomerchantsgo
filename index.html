@@ -69,48 +69,18 @@
       <div class="screen-header">
         <div>
           <h1>Merchants</h1>
-          <p class="screen-subtitle">3 saved</p>
+          <p class="screen-subtitle" id="merchants-count">0 saved</p>
         </div>
         <button class="btn-primary" onclick="showScreen('screen-merchant-new')">
           <i class="ti ti-plus"></i> New Merchant
         </button>
       </div>
 
-      <div class="list-container">
-        <div class="list-header">
-          <span class="col-name">Name</span>
-          <span class="col-detail">Race</span>
-          <span class="col-detail">Type</span>
-          <span class="col-detail-wide">Settlement · Economy</span>
-          <span class="col-detail">Level</span>
-          <span class="col-rarity">Rarity</span>
-        </div>
-
-        <div class="list-row" onclick="showScreen('screen-merchant-result')">
-          <span class="col-name row-title">Durgin Ironmantle</span>
-          <span class="col-detail row-meta"><i class="ti ti-user"></i> Dwarf</span>
-          <span class="col-detail row-meta"><i class="ti ti-hammer"></i> Blacksmith</span>
-          <span class="col-detail-wide row-meta"><i class="ti ti-building"></i> City · Trade Hub</span>
-          <span class="col-detail row-meta"><i class="ti ti-level-bolt"></i> 1–8</span>
-          <span class="col-rarity"><span class="badge badge-uncommon">Uncommon</span></span>
-        </div>
-
-        <div class="list-row" onclick="showScreen('screen-merchant-result')">
-          <span class="col-name row-title muted">Unnamed Merchant</span>
-          <span class="col-detail row-meta"><i class="ti ti-user"></i> Human</span>
-          <span class="col-detail row-meta"><i class="ti ti-flask"></i> Alchemist</span>
-          <span class="col-detail-wide row-meta"><i class="ti ti-building"></i> Town · Frontier</span>
-          <span class="col-detail row-meta"><i class="ti ti-level-bolt"></i> 1–4</span>
-          <span class="col-rarity"><span class="badge badge-common">Common</span></span>
-        </div>
-
-        <div class="list-row" onclick="showScreen('screen-merchant-result')">
-          <span class="col-name row-title">Seraphine Voss</span>
-          <span class="col-detail row-meta"><i class="ti ti-user"></i> Elf</span>
-          <span class="col-detail row-meta"><i class="ti ti-wand"></i> Arcane Goods</span>
-          <span class="col-detail-wide row-meta"><i class="ti ti-building"></i> Metropolis · Academic</span>
-          <span class="col-detail row-meta"><i class="ti ti-level-bolt"></i> 3–12</span>
-          <span class="col-rarity"><span class="badge badge-rare">Rare</span></span>
+      <div class="list-container" id="merchants-list">
+        <div class="empty-state">
+          <i class="ti ti-building-store"></i>
+          <p>No merchants yet</p>
+          <span>Hit New Merchant to generate your first one</span>
         </div>
       </div>
     </div> <!-- end screen-merchants -->
@@ -262,11 +232,11 @@
     <div id="screen-merchant-result" class="screen">
       <div class="screen-header">
         <div>
-          <h1>Durgin Ironmantle</h1>
-          <p class="screen-subtitle">Dwarf · Blacksmith · City · Trade Hub</p>
+          <h1 id="result-name">Unnamed Merchant</h1>
+          <p class="screen-subtitle" id="result-subtitle">—</p>
         </div>
         <div class="header-actions">
-          <button class="btn-secondary" onclick="showScreen('screen-merchant-new')">
+          <button class="btn-secondary">
             <i class="ti ti-device-floppy"></i> Save
           </button>
           <button class="btn-primary">
@@ -278,19 +248,19 @@
       <div class="stat-blocks">
         <div class="stat-block">
           <span class="stat-label">Currency</span>
-          <span class="stat-value">48 gp · 12 sp</span>
+          <span class="stat-value" id="result-currency">—</span>
         </div>
         <div class="stat-block">
           <span class="stat-label">Items</span>
-          <span class="stat-value">14</span>
+          <span class="stat-value" id="result-item-count">—</span>
         </div>
         <div class="stat-block">
           <span class="stat-label">Max level</span>
-          <span class="stat-value">8</span>
+          <span class="stat-value" id="result-max-level">—</span>
         </div>
         <div class="stat-block">
           <span class="stat-label">Rarity</span>
-          <span class="stat-value">Common · Uncommon</span>
+          <span class="stat-value" id="result-rarity">—</span>
         </div>
       </div>
 
@@ -319,88 +289,14 @@
           <span class="col-price">Price</span>
           <span class="col-rarity">Rarity</span>
         </div>
-
-        <p class="category-heading">Weapons</p>
-        <div class="list-row">
-          <span class="col-item-name row-title">Dwarven War Axe</span>
-          <span class="col-qty row-meta">2</span>
-          <span class="col-level row-meta">4</span>
-          <span class="col-bulk row-meta">2</span>
-          <span class="col-price row-meta">80 gp</span>
-          <span class="col-rarity"><span class="badge badge-uncommon">Uncommon</span></span>
+        <div id="result-inventory">
+          <div class="empty-state">
+            <i class="ti ti-wand"></i>
+            <p>No inventory yet</p>
+            <span>Hit Generate to stock this merchant</span>
+          </div>
         </div>
-        <div class="list-row">
-          <span class="col-item-name row-title">Handaxe</span>
-          <span class="col-qty row-meta">6</span>
-          <span class="col-level row-meta">0</span>
-          <span class="col-bulk row-meta">1</span>
-          <span class="col-price row-meta">3 sp</span>
-          <span class="col-rarity"><span class="badge badge-common">Common</span></span>
-        </div>
-        <div class="list-row">
-          <span class="col-item-name row-title">Light Hammer</span>
-          <span class="col-qty row-meta">8</span>
-          <span class="col-level row-meta">0</span>
-          <span class="col-bulk row-meta">1</span>
-          <span class="col-price row-meta">3 sp</span>
-          <span class="col-rarity"><span class="badge badge-common">Common</span></span>
-        </div>
-
-        <p class="category-heading">Armor</p>
-        <div class="list-row">
-          <span class="col-item-name row-title">Dwarf-forged Breastplate</span>
-          <span class="col-qty row-meta">1</span>
-          <span class="col-level row-meta">6</span>
-          <span class="col-bulk row-meta">3</span>
-          <span class="col-price row-meta">240 gp</span>
-          <span class="col-rarity"><span class="badge badge-uncommon">Uncommon</span></span>
-        </div>
-        <div class="list-row">
-          <span class="col-item-name row-title">Chain Mail</span>
-          <span class="col-qty row-meta">2</span>
-          <span class="col-level row-meta">2</span>
-          <span class="col-bulk row-meta">2</span>
-          <span class="col-price row-meta">6 gp</span>
-          <span class="col-rarity"><span class="badge badge-common">Common</span></span>
-        </div>
-
-        <p class="category-heading">Shields</p>
-        <div class="list-row">
-          <span class="col-item-name row-title">Steel Shield</span>
-          <span class="col-qty row-meta">4</span>
-          <span class="col-level row-meta">0</span>
-          <span class="col-bulk row-meta">1</span>
-          <span class="col-price row-meta">2 gp</span>
-          <span class="col-rarity"><span class="badge badge-common">Common</span></span>
-        </div>
-        <div class="list-row">
-          <span class="col-item-name row-title">Sturdy Shield (Minor)</span>
-          <span class="col-qty row-meta">1</span>
-          <span class="col-level row-meta">3</span>
-          <span class="col-bulk row-meta">1</span>
-          <span class="col-price row-meta">35 gp</span>
-          <span class="col-rarity"><span class="badge badge-uncommon">Uncommon</span></span>
-        </div>
-
-        <p class="category-heading">Adventuring Gear</p>
-        <div class="list-row">
-          <span class="col-item-name row-title">Climbing Kit</span>
-          <span class="col-qty row-meta">3</span>
-          <span class="col-level row-meta">0</span>
-          <span class="col-bulk row-meta">1</span>
-          <span class="col-price row-meta">5 sp</span>
-          <span class="col-rarity"><span class="badge badge-common">Common</span></span>
-        </div>
-        <div class="list-row">
-          <span class="col-item-name row-title">Grappling Hook</span>
-          <span class="col-qty row-meta">5</span>
-          <span class="col-level row-meta">0</span>
-          <span class="col-bulk row-meta">1</span>
-          <span class="col-price row-meta">1 sp</span>
-          <span class="col-rarity"><span class="badge badge-common">Common</span></span>
-        </div>
-
-      </div> <!-- end list-container -->
+      </div>
     </div> <!-- end screen-merchant-result -->
 
     <!-- ─── Custom Data List ──────────────────────────────── -->
@@ -408,7 +304,7 @@
       <div class="screen-header">
         <div>
           <h1>Custom Data</h1>
-          <p class="screen-subtitle">4 items</p>
+          <p class="screen-subtitle" id="custom-count">0 items</p>
         </div>
         <div class="header-actions">
           <button class="btn-secondary" onclick="showScreen('screen-custom-existing')">
@@ -420,56 +316,13 @@
         </div>
       </div>
 
-      <div class="list-container">
-        <div class="list-header">
-          <span class="col-item-name">Name</span>
-          <span class="col-detail">Type</span>
-          <span class="col-level">Level</span>
-          <span class="col-bulk">Bulk</span>
-          <span class="col-price">Price</span>
-          <span class="col-rarity">Rarity</span>
+      <div class="list-container" id="custom-list">
+        <div class="empty-state">
+          <i class="ti ti-database"></i>
+          <p>No custom items yet</p>
+          <span>Create a homebrew item or copy and modify an existing one</span>
         </div>
-
-        <div class="list-row" onclick="showScreen('screen-custom-new')">
-          <span class="col-item-name row-title">Grimtooth's Gutting Knife</span>
-          <span class="col-detail row-meta">Weapon</span>
-          <span class="col-level row-meta">3</span>
-          <span class="col-bulk row-meta">L</span>
-          <span class="col-price row-meta">30 gp</span>
-          <span class="col-rarity"><span class="badge badge-uncommon">Uncommon</span></span>
-        </div>
-
-        <div class="list-row" onclick="showScreen('screen-custom-new')">
-          <span class="col-item-name row-title">Tincture of Fool's Courage</span>
-          <span class="col-detail row-meta">Consumable</span>
-          <span class="col-level row-meta">2</span>
-          <span class="col-bulk row-meta">L</span>
-          <span class="col-price row-meta">6 gp</span>
-          <span class="col-rarity"><span class="badge badge-common">Common</span></span>
-        </div>
-
-        <div class="list-row" onclick="showScreen('screen-custom-new')">
-          <span class="col-item-name row-title">Ironveil Cloak</span>
-          <span class="col-detail row-meta">Worn Item</span>
-          <span class="col-level row-meta">5</span>
-          <span class="col-bulk row-meta">L</span>
-          <span class="col-price row-meta">150 gp</span>
-          <span class="col-rarity"><span class="badge badge-rare">Rare</span></span>
-        </div>
-
-        <div class="list-row" onclick="showScreen('screen-custom-new')">
-          <span class="col-item-name row-title">
-            Shortbow +1
-            <i class="ti ti-tool" style="font-size: 12px; color: #5B7F95; margin-left: 4px;" title="Modified from existing item"></i>
-          </span>
-          <span class="col-detail row-meta">Weapon</span>
-          <span class="col-level row-meta">2</span>
-          <span class="col-bulk row-meta">1</span>
-          <span class="col-price row-meta">35 gp</span>
-          <span class="col-rarity"><span class="badge badge-uncommon">Uncommon</span></span>
-        </div>
-
-      </div> <!-- end list-container -->
+      </div>
     </div> <!-- end screen-custom-data -->
 
     <!-- ─── Custom Data New Item ──────────────────────────── -->
