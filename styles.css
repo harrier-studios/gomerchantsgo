@@ -375,7 +375,7 @@ h1 {
 }
 
 .muted {
-  color: #4B5563;
+  color: #6B7280;
 }
 
 /* ─── Badges ──────────────────────────────────────────────── */
@@ -469,7 +469,7 @@ h1 {
   border-radius: 6px;
   border: 0.5px solid #3A3F47;
   background: #23272E;
-  color: #4B5563;
+  color: #6B7280;
   cursor: pointer;
 }
 
@@ -669,7 +669,7 @@ h1 {
 
 .empty-state span {
   font-size: 13px;
-  color: #4B5563;
+  color: #6B7280;
 }
 
 /* ─── Create From Existing ────────────────────────────────── */
@@ -785,7 +785,7 @@ h1 {
   border-radius: 8px;
   border: 0.5px solid #3A3F47;
   background: #1a1a1a;
-  color: #4B5563;
+  color: #6B7280;
   cursor: pointer;
   display: flex;
   align-items: center;
@@ -831,7 +831,7 @@ h1 {
 
 .settings-row-sub {
   font-size: 12px;
-  color: #4B5563;
+  color: #6B7280;
 }
 
 .btn-data {
