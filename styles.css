@@ -919,3 +919,29 @@ h1 {
 .btn-copy:hover {
   background: #1A2A33;
 }
+
+/* ─── Sortable Column Headers ─────────────────────────────── */
+
+.sortable {
+  cursor: pointer;
+  user-select: none;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.sortable:hover {
+  color: #F2F4F6;
+}
+
+.active-sort {
+  color: #5B7F95 !important;
+}
+
+.sort-icon-inactive {
+  opacity: 0;
+}
+
+.sortable:hover .sort-icon-inactive {
+  opacity: 0.4;
+}

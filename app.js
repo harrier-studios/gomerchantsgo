@@ -6,6 +6,9 @@ const state = {
   userItems: []
 };
 
+// Adds filtering for columns in Custom Items
+let existingSortColumn = 'name';
+let existingSortDirection = 'asc';
 
 // ─── Utilities ────────────────────────────────────────────
 
@@ -21,6 +24,12 @@ function badgeClass(rarity) {
 function rarityFromIndex(index) {
   return ['common', 'uncommon', 'rare', 'unique'][index] || 'common';
 }
+
+function formatBulk(bulk) {
+  if (bulk === null || bulk === undefined || bulk === '') return '—';
+  return bulk.toString();
+}
+
 
 // ─── Data Loading ─────────────────────────────────────────
 
@@ -45,6 +54,7 @@ async function loadItems() {
 function showScreen(id) {
   document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
   document.getElementById(id).classList.add('active');
+  if (id === 'screen-custom-existing') initExistingItems();
 }
 
 function goHome() {
@@ -76,6 +86,7 @@ function setSearchFilter(btn, group) {
   const row = btn.parentElement;
   row.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
   btn.classList.add('active');
+  renderExistingItems();
 }
 
 function updateLevelRange(slider, displayId) {
@@ -86,7 +97,15 @@ function updateLevelRange(slider, displayId) {
 }
 
 function filterItems() {
-  // Placeholder — will be wired up when items.json is loaded
+  renderExistingItems();
+}
+
+function updateLevelRange(slider, displayId) {
+  const min = parseInt(document.getElementById('level-min').value);
+  const max = parseInt(document.getElementById('level-max').value);
+  document.getElementById('level-min-val').textContent = min;
+  document.getElementById('level-max-val').textContent = max;
+  renderExistingItems();
 }
 
 // ─── Tag Input ────────────────────────────────────────────
@@ -214,6 +233,122 @@ function renderUserItemsList() {
   }
 
   // List rows will go here once we have real user items to show
+}
+
+// ─── Create From Existing ─────────────────────────────────
+
+let selectedExistingItem = null;
+
+function initExistingItems() {
+  selectedExistingItem = null;
+  document.getElementById('copy-item-btn').disabled = true;
+  renderExistingItems();
+}
+
+function renderExistingItems() {
+  const search = document.getElementById('item-search').value.toLowerCase();
+  const typeBtn = document.querySelector('#screen-custom-existing .filter-row:nth-child(2) .filter-btn.active');
+  const rarityBtn = document.querySelector('#screen-custom-existing .filter-row:nth-child(3) .filter-btn.active');
+  const levelMin = parseInt(document.getElementById('level-min').value);
+  const levelMax = parseInt(document.getElementById('level-max').value);
+
+  const typeFilter = typeBtn ? typeBtn.textContent.trim() : 'Any';
+  const rarityFilter = rarityBtn ? rarityBtn.textContent.trim() : 'Any';
+
+  const filtered = state.items.filter(item => {
+    if (search && !item.name.toLowerCase().includes(search)) return false;
+    if (typeFilter !== 'Any' && item.type?.toLowerCase() !== typeFilter.toLowerCase()) return false;
+    if (rarityFilter !== 'Any' && item.rarity?.toLowerCase() !== rarityFilter.toLowerCase()) return false;
+    if (item.level < levelMin || item.level > levelMax) return false;
+    return true;
+  });
+
+    const filtered = state.items.filter(item => {
+    if (search && !item.name.toLowerCase().includes(search)) return false;
+    if (typeFilter !== 'Any' && item.type?.toLowerCase() !== typeFilter.toLowerCase()) return false;
+    if (rarityFilter !== 'Any' && item.rarity?.toLowerCase() !== rarityFilter.toLowerCase()) return false;
+    if (item.level < levelMin || item.level > levelMax) return false;
+    return true;
+  });
+
+  const container = document.getElementById('existing-items-list');
+
+  if (filtered.length === 0) {
+    container.innerHTML = `
+      <div class="empty-state">
+        <i class="ti ti-search"></i>
+        <p>No items found</p>
+        <span>Try adjusting your search or filters</span>
+      </div>`;
+    return;
+  }
+
+  container.innerHTML = filtered.slice(0, 200).map(item => `
+    <div class="list-row" onclick="selectExistingItem(this, '${item.id}')">
+      <span class="col-item-name row-title">${item.name}</span>
+      <span class="col-detail row-meta">${item.type || '—'}</span>
+      <span class="col-level row-meta">${item.level ?? '—'}</span>
+      <span class="col-bulk row-meta">${formatBulk(item.bulk)}</span>
+      <span class="col-price row-meta">${formatPrice(item.price)}</span>
+      <span class="col-rarity">
+        <span class="badge ${badgeClass(item.rarity)}">${item.rarity || '—'}</span>
+      </span>
+    </div>
+  `).join('');
+}
+
+function selectExistingItem(row, itemId) {
+  document.querySelectorAll('#existing-items-list .list-row').forEach(r => {
+    r.classList.remove('selected');
+    r.querySelector('.col-item-name').style.color = '';
+  });
+  row.classList.add('selected');
+  row.querySelector('.col-item-name').style.color = '#5B7F95';
+  selectedExistingItem = state.items.find(i => i.id === itemId);
+  document.getElementById('copy-item-btn').disabled = false;
+}
+
+function formatPrice(price) {
+  if (!price) return '—';
+  if (typeof price === 'string') return price;
+  const parts = [];
+  if (price.gp) parts.push(`${price.gp} gp`);
+  if (price.sp) parts.push(`${price.sp} sp`);
+  if (price.cp) parts.push(`${price.cp} cp`);
+  return parts.join(' · ') || '—';
+}
+
+
+// ---- Sort function ---------------------------------------
+
+function sortExistingItems(column) {
+  if (existingSortColumn === column) {
+    existingSortDirection = existingSortDirection === 'asc' ? 'desc' : 'asc';
+  } else {
+    existingSortColumn = column;
+    existingSortDirection = 'asc';
+  }
+  updateSortHeaders();
+  renderExistingItems();
+}
+
+function updateSortHeaders() {
+  const columns = ['name', 'type', 'level', 'bulk', 'price', 'rarity'];
+  columns.forEach(col => {
+    const icon = document.getElementById(`sort-icon-${col}`);
+    const header = icon?.parentElement;
+    if (!icon || !header) return;
+    if (col === existingSortColumn) {
+      header.classList.add('active-sort');
+      icon.className = existingSortDirection === 'asc'
+        ? 'ti ti-chevron-up'
+        : 'ti ti-chevron-down';
+      icon.classList.remove('sort-icon-inactive');
+    } else {
+      header.classList.remove('active-sort');
+      icon.className = 'ti ti-chevron-up sort-icon-inactive';
+    }
+  });
 }
 
 // ─── Start the app ────────────────────────────────────────
