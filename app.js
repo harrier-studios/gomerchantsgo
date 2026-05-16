@@ -1,3 +1,45 @@
+// ─── App State ────────────────────────────────────────────
+
+const state = {
+  items: [],
+  merchants: [],
+  userItems: []
+};
+
+
+// ─── Utilities ────────────────────────────────────────────
+
+function generateId() {
+  return crypto.randomUUID();
+}
+
+function badgeClass(rarity) {
+  if (!rarity) return '';
+  return `badge-${rarity.toLowerCase()}`;
+}
+
+function rarityFromIndex(index) {
+  return ['common', 'uncommon', 'rare', 'unique'][index] || 'common';
+}
+
+// ─── Data Loading ─────────────────────────────────────────
+
+async function init() {
+  await loadItems();
+  loadMerchants();
+  loadUserItems();
+}
+
+async function loadItems() {
+  try {
+    const response = await fetch('data/items.json');
+    state.items = await response.json();
+    console.log(`Loaded ${state.items.length} items`);
+  } catch (err) {
+    console.error('Failed to load items.json:', err);
+  }
+}
+
 // ─── Navigation ───────────────────────────────────────────
 
 function showScreen(id) {
@@ -88,9 +130,92 @@ function copyPath() {
   });
 }
 
-// Helps stop older browsers from firing const every time the slider is moved.
+// ---- Helps stop older browsers from firing const 
+// every time the slider is moved.
 
 function formatPriceModifier(val, displayId) {
   const v = parseInt(val);
   document.getElementById(displayId).textContent = (v > 0 ? '+' : '') + v + '%';
 }
+
+// ─── localStorage Helpers ─────────────────────────────────
+
+function saveToStorage(key, data) {
+  try {
+    localStorage.setItem(key, JSON.stringify(data));
+  } catch (err) {
+    console.error(`Failed to save ${key}:`, err);
+  }
+}
+
+function loadFromStorage(key) {
+  try {
+    const data = localStorage.getItem(key);
+    return data ? JSON.parse(data) : null;
+  } catch (err) {
+    console.error(`Failed to load ${key}:`, err);
+    return null;
+  }
+}
+
+// ─── Merchants ────────────────────────────────────────────
+
+function loadMerchants() {
+  state.merchants = loadFromStorage('merchants') || [];
+  renderMerchantsList();
+}
+
+function saveMerchants() {
+  saveToStorage('merchants', state.merchants);
+}
+
+function renderMerchantsList() {
+  const container = document.getElementById('merchants-list');
+  const count = document.getElementById('merchants-count');
+  count.textContent = `${state.merchants.length} saved`;
+
+  if (state.merchants.length === 0) {
+    container.innerHTML = `
+      <div class="empty-state">
+        <i class="ti ti-building-store"></i>
+        <p>No merchants yet</p>
+        <span>Hit New Merchant to generate your first one</span>
+      </div>`;
+    return;
+  }
+
+  // List rows will go here once we have real merchants to show
+}
+
+// ─── User Items ───────────────────────────────────────────
+
+function loadUserItems() {
+  state.userItems = loadFromStorage('userItems') || [];
+  renderUserItemsList();
+}
+
+function saveUserItems() {
+  saveToStorage('userItems', state.userItems);
+}
+
+function renderUserItemsList() {
+  const container = document.getElementById('custom-list');
+  const count = document.getElementById('custom-count');
+  count.textContent = `${state.userItems.length} items`;
+
+  if (state.userItems.length === 0) {
+    container.innerHTML = `
+      <div class="empty-state">
+        <i class="ti ti-database"></i>
+        <p>No custom items yet</p>
+        <span>Create a homebrew item or copy and modify an existing one</span>
+      </div>`;
+    return;
+  }
+
+  // List rows will go here once we have real user items to show
+}
+
+// ─── Start the app ────────────────────────────────────────
+
+init();
