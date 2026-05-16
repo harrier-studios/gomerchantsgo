@@ -87,3 +87,10 @@ function copyPath() {
     }, 1500);
   });
 }
+
+// Helps stop older browsers from firing const every time the slider is moved.
+
+function formatPriceModifier(val, displayId) {
+  const v = parseInt(val);
+  document.getElementById(displayId).textContent = (v > 0 ? '+' : '') + v + '%';
+}

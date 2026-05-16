@@ -183,7 +183,7 @@
               Pricing modifier <span class="slider-value" id="price-display">+0%</span>
             </label>
             <input type="range" class="slider" min="-50" max="50" value="0" step="1"
-              oninput="const v = parseInt(this.value); document.getElementById('price-display').textContent = (v > 0 ? '+' : '') + v + '%'" />
+              oninput="formatPriceModifier(this.value, 'price-display')"/>
           </div>
 
           <div class="field-group">
@@ -585,7 +585,7 @@
           Pricing modifier <span class="slider-value" id="default-price-display">+0%</span>
         </label>
         <input type="range" class="slider" min="-50" max="50" value="0" step="1"
-          oninput="const v = parseInt(this.value); document.getElementById('default-price-display').textContent = (v > 0 ? '+' : '') + v + '%'" />
+          oninput="formatPriceModifier(this.value, 'default-price-display')" />
       </div>
 
       <div class="field-group">
