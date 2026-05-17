@@ -953,16 +953,18 @@ h1 {
   font-weight: 600;
   font-size: 13px;
   background: none;
-  border: none;
+  border: 1.5px solid #3A3F47;
   color: #6B7280;
   cursor: pointer;
   display: flex;
   align-items: center;
   gap: 6px;
-  padding: 0;
+  padding: 7px 14px;
+  border-radius: 8px;
   margin-bottom: 1.25rem;
 }
 
 #back-btn:hover {
+  border-color: #6B7280;
   color: #F2F4F6;
 }
