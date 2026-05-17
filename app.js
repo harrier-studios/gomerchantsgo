@@ -463,7 +463,44 @@ function renderMerchantsList() {
     return;
   }
 
-  // List rows will go here once we have real merchants to show
+  container.innerHTML = `
+    <div class="list-header">
+      <span class="col-name">Name</span>
+      <span class="col-detail">Ancestry</span>
+      <span class="col-detail">Type</span>
+      <span class="col-detail-wide">Settlement · Economy</span>
+      <span class="col-detail">Level</span>
+      <span class="col-rarity">Rarity</span>
+    </div>
+    ${state.merchants.map(merchant => {
+      const s = merchant.generatorSettings;
+      const maxLevel = SETTLEMENT_LEVEL[s.settlementSize] || '—';
+      const rarity = s.rarity.length === 4 ? 'All' : s.rarity.map(capitalise).join(', ');
+      const ancestryDisplay = s.ancestry && s.ancestry !== 'any' ? capitalise(s.ancestry) : '—';
+      const storeDisplay = capitalise(s.storeType.replace(/-/g, ' '));
+      const settlementDisplay = capitalise(s.settlementSize);
+      const economyDisplay = capitalise(s.economy.replace(/-/g, ' '));
+      const rarityBadge = s.rarity.length === 1 ? s.rarity[0] : s.rarity.length === 2 ? s.rarity[0] : 'common';
+
+      return `
+        <div class="list-row" onclick="openMerchant('${merchant.id}')">
+          <span class="col-name row-title">${merchant.name || '<span class="muted">Unnamed Merchant</span>'}</span>
+          <span class="col-detail row-meta">${ancestryDisplay}</span>
+          <span class="col-detail row-meta">${storeDisplay}</span>
+          <span class="col-detail-wide row-meta">${settlementDisplay} · ${economyDisplay}</span>
+          <span class="col-detail row-meta">1–${maxLevel}</span>
+          <span class="col-rarity"><span class="badge badge-${rarityBadge}">${rarity}</span></span>
+        </div>
+      `;
+    }).join('')}
+  `;
+}
+
+function openMerchant(id) {
+  const merchant = state.merchants.find(m => m.id === id);
+  if (!merchant) return;
+  state.currentMerchant = merchant;
+  displayMerchantResult(merchant);
 }
 
 // ─── User Items ───────────────────────────────────────────
