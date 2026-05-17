@@ -503,6 +503,87 @@ function openMerchant(id) {
   displayMerchantResult(merchant);
 }
 
+// ─── Regenerate Merchant ──────────────────────────────────
+
+function regenerateMerchant() {
+  if (!state.currentMerchant) return;
+
+  const s = state.currentMerchant.generatorSettings;
+  const maxLevel = SETTLEMENT_LEVEL[s.settlementSize] || 14;
+  const economyConfig = ECONOMY_CONFIG[s.economy] || ECONOMY_CONFIG['trade-hub'];
+  const storeConfig = STORE_TYPES[s.storeType] || STORE_TYPES['any'];
+  const styleConfig = STOCKING_STYLE[s.stockingStyle] || STOCKING_STYLE['focused'];
+
+  let pool = state.items.filter(item => {
+    if (item.level > maxLevel) return false;
+    if (!s.rarity.includes(item.rarity?.toLowerCase())) return false;
+
+    if (storeConfig.types.length > 0 || storeConfig.traits.length > 0) {
+      const itemTraits = item.traits || [];
+      const hasType = storeConfig.types.length > 0 && storeConfig.types.includes(item.type);
+      const hasTrait = storeConfig.traits.length > 0 && storeConfig.traits.some(t => itemTraits.includes(t));
+      if (!hasType && !hasTrait) return false;
+    }
+
+    if (s.ancestry && s.ancestry !== 'any') {
+      if (!(item.traits || []).includes(s.ancestry)) return false;
+    }
+
+    return true;
+  });
+
+  if (pool.length === 0) {
+    alert('No items match these parameters. Try adjusting your filters.');
+    return;
+  }
+
+  pool = pool.map(item => {
+    let weight = 1;
+    weight *= getLevelWeight(item.level, maxLevel, economyConfig.levelBias, styleConfig.highLevelBias);
+    const isMagical = (item.traits || []).some(t => ['magical', 'arcane', 'divine'].includes(t));
+    if (isMagical) weight *= (1 + s.arcaneTilt * 2);
+    else weight *= (1 + (1 - s.arcaneTilt) * 0.5);
+    if (economyConfig.categoryBias.length > 0) {
+      const hasBias = economyConfig.categoryBias.some(t => (item.traits || []).includes(t));
+      if (hasBias) weight *= 1.5;
+    }
+    return { ...item, weight };
+  });
+
+  const baseCount = Math.floor(
+    (styleConfig.min + Math.random() * (styleConfig.max - styleConfig.min))
+    * economyConfig.multiplier
+  );
+  const count = Math.max(3, baseCount);
+  const selected = weightedSample(pool, count);
+
+  const inventory = selected.map(item => ({
+    id: item.id,
+    quantity: generateQuantity(item, s.economy, s.storeType)
+  }));
+
+  state.currentMerchant.inventory = inventory;
+  state.currentMerchant.currency = generateCurrency(s.settlementSize, s.economy);
+
+  // If already saved, update in place
+  const existingIndex = state.merchants.findIndex(m => m.id === state.currentMerchant.id);
+  if (existingIndex >= 0) {
+    state.merchants[existingIndex] = state.currentMerchant;
+    saveMerchants();
+  }
+
+  renderInventory(state.currentMerchant.inventory);
+
+  // Update stat blocks
+  const currency = state.currentMerchant.currency;
+  document.getElementById('result-currency').textContent =
+    [currency.gp ? `${currency.gp} gp` : null,
+     currency.sp ? `${currency.sp} sp` : null,
+     currency.cp ? `${currency.cp} cp` : null]
+    .filter(Boolean).join(' · ') || '—';
+  document.getElementById('result-item-count').textContent = inventory.length;
+}
+
 // ─── User Items ───────────────────────────────────────────
 
 function loadUserItems() {
