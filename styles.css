@@ -945,3 +945,24 @@ h1 {
 .sortable:hover .sort-icon-inactive {
   opacity: 0.4;
 }
+
+/* ─── Back Button ─────────────────────────────────────────── */
+
+#back-btn {
+  font-family: 'Inter', sans-serif;
+  font-weight: 600;
+  font-size: 13px;
+  background: none;
+  border: none;
+  color: #6B7280;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 0;
+  margin-bottom: 1.25rem;
+}
+
+#back-btn:hover {
+  color: #F2F4F6;
+}

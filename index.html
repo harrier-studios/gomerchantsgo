@@ -18,6 +18,11 @@
 
   <div id="app">
 
+      <!-- ─── Back Button ───────────────────────────────────── -->
+  <button id="back-btn" onclick="goBack()" style="display: none;">
+    <i class="ti ti-arrow-left"></i> Back
+  </button>
+
     <!-- ─── Home ─────────────────────────────────────────── -->
     <div id="screen-home" class="screen active">
       <div class="home-header">
@@ -136,7 +141,7 @@
         <div class="field-grid">
           <div class="field-group">
             <label class="field-label">Race</label>
-            <select class="field-select" id="race-select">
+            <select class="field-select" id="ancestry-select">
               <option selected>Any</option>
               <option>Dwarf</option>
               <option>Elf</option>

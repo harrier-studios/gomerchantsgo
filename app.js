@@ -6,6 +6,8 @@ const state = {
   userItems: []
 };
 
+const navStack = [];
+
 // Adds filtering for columns in Custom Items
 let existingSortColumn = 'name';
 let existingSortDirection = 'asc';
@@ -56,6 +58,7 @@ function cleanDescription(html) {
 
 async function init() {
   await loadItems();
+  await loadAncestries();
   loadMerchants();
   loadUserItems();
 }
@@ -70,18 +73,72 @@ async function loadItems() {
   }
 }
 
+async function loadAncestries() {
+  try {
+    const response = await fetch('data/ancestries.json');
+    const allAncestries = await response.json();
+    
+    // Build a set of all traits that appear in items.json
+    const allTraits = new Set();
+    state.items.forEach(item => {
+      (item.traits || []).forEach(trait => allTraits.add(trait.toLowerCase()));
+    });
+
+    // Only keep ancestries that appear as a trait in items.json
+    state.ancestries = allAncestries.filter(ancestry => 
+      allTraits.has(ancestry.toLowerCase())
+    );
+
+    console.log(`Loaded ${state.ancestries.length} ancestries with items`);
+    populateAncestryDropdown();
+  } catch (err) {
+    console.error('Failed to load ancestries.json:', err);
+  }
+}
+
+function populateAncestryDropdown() {
+  const select = document.getElementById('ancestry-select');
+  select.innerHTML = '<option value="any" selected>Any</option>';
+  state.ancestries.forEach(ancestry => {
+    const option = document.createElement('option');
+    option.value = ancestry.toLowerCase();
+    option.textContent = ancestry;
+    select.appendChild(option);
+  });
+}
+
 // ─── Navigation ───────────────────────────────────────────
 
 function showScreen(id) {
+  const current = document.querySelector('.screen.active');
+  if (current) navStack.push(current.id);
   document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
   document.getElementById(id).classList.add('active');
   if (id === 'screen-custom-existing') initExistingItems();
+  updateBackButton();
 }
 
 function goHome() {
+  navStack.length = 0;
   showScreen('screen-home');
 }
 
+function goBack() {
+  if (navStack.length === 0) return;
+  const previous = navStack.pop();
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.getElementById(previous).classList.add('active');
+  if (previous === 'screen-custom-existing') initExistingItems();
+  updateBackButton();
+}
+
+function updateBackButton() {
+  const btn = document.getElementById('back-btn');
+  if (!btn) return;
+  const current = document.querySelector('.screen.active');
+  const isHome = current?.id === 'screen-home';
+  btn.style.display = isHome ? 'none' : 'flex';
+}
 // ─── New Merchant Form ────────────────────────────────────
 
 function toggleFilters() {
