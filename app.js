@@ -916,16 +916,19 @@ function renderMerchantsList() {
       const economyDisplay = capitalise(s.economy.replace(/-/g, ' '));
       const rarityBadge = s.rarity[0] || 'common';
 
-      return `
-        <div class="list-row" onclick="openMerchant('${merchant.id}')">
-          <span class="col-name row-title">${merchant.name || '<span class="muted">Unnamed Merchant</span>'}</span>
-          <span class="col-detail row-meta">${ancestryDisplay}</span>
-          <span class="col-detail row-meta">${storeDisplay}</span>
-          <span class="col-detail-wide row-meta">${settlementDisplay} · ${economyDisplay}</span>
-          <span class="col-detail row-meta">1–${maxLevel}</span>
-          <span class="col-rarity"><span class="badge badge-${rarityBadge}">${rarity}</span></span>
-        </div>
-      `;
+return `
+  <div class="list-row" onclick="openMerchant('${merchant.id}')">
+    <span class="col-name row-title">${merchant.name || '<span class="muted">Unnamed Merchant</span>'}</span>
+    <span class="col-detail row-meta">${ancestryDisplay}</span>
+    <span class="col-detail row-meta">${storeDisplay}</span>
+    <span class="col-detail-wide row-meta">${settlementDisplay} · ${economyDisplay}</span>
+    <span class="col-detail row-meta">1–${maxLevel}</span>
+    <span class="col-rarity"><span class="badge badge-${rarityBadge}">${rarity}</span></span>
+    <button class="btn-delete" onclick="deleteMerchant(event, '${merchant.id}')">
+      <i class="ti ti-trash"></i>
+    </button>
+  </div>
+`;
     }).join('')}
   `;
 }
@@ -976,6 +979,9 @@ function renderUserItemsList() {
         <span class="col-bulk row-meta">${formatBulk(item.bulk)}</span>
         <span class="col-price row-meta">${typeof item.price === 'string' ? item.price : formatPrice(item.price)}</span>
         <span class="col-rarity"><span class="badge ${badgeClass(item.rarity)}">${item.rarity || '—'}</span></span>
+        <button class="btn-delete" onclick="deleteUserItem(event, '${item.id}')">
+          <i class="ti ti-trash"></i>
+        </button>
       </div>
     `).join('')}
   `;
@@ -1117,6 +1123,24 @@ function updateLevelRange(slider, displayId) {
 
 function filterItems() {
   renderExistingItems();
+}
+
+// ─── Delete ───────────────────────────────────────────────
+
+function deleteMerchant(e, id) {
+  e.stopPropagation();
+  if (!confirm('Delete this merchant? This cannot be undone.')) return;
+  state.merchants = state.merchants.filter(m => m.id !== id);
+  saveMerchants();
+  renderMerchantsList();
+}
+
+function deleteUserItem(e, id) {
+  e.stopPropagation();
+  if (!confirm('Delete this item? This cannot be undone.')) return;
+  state.userItems = state.userItems.filter(i => i.id !== id);
+  saveUserItems();
+  renderUserItemsList();
 }
 
 // ─── Start the app ────────────────────────────────────────

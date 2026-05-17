@@ -968,3 +968,22 @@ h1 {
   border-color: #6B7280;
   color: #F2F4F6;
 }
+
+/* ─── Delete Button ───────────────────────────────────────── */
+
+.btn-delete {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #3A3F47;
+  font-size: 16px;
+  padding: 4px;
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+  margin-left: auto;
+}
+
+.btn-delete:hover {
+  color: #E24B4A;
+}
