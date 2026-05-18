@@ -1193,7 +1193,7 @@ const CURRENT_VERSION = '0.9';
 async function checkForUpdates() {
   try {
     const response = await fetch(
-      'https://raw.githubusercontent.com/yourusername/merchants/main/data/version.json',
+      'https://raw.githubusercontent.com/codeguy1134/gomerchantgo/main/data/version.json',
       { cache: 'no-store' }
     );
     if (!response.ok) return;
@@ -1203,6 +1203,41 @@ async function checkForUpdates() {
     }
   } catch (err) {
     // Silently fail — no internet or repo not found, no big deal
+  }
+}
+
+// ─── Update Items Database ────────────────────────────────
+
+async function updateItemDatabase() {
+  const btn = document.querySelector('.settings-row .btn-primary');
+  btn.innerHTML = '<i class="ti ti-loader"></i> Updating…';
+  btn.disabled = true;
+
+  try {
+    const response = await fetch(
+      'https://raw.githubusercontent.com/codeguy1134/gomerchantgo/main/data/items.json',
+      { cache: 'no-store' }
+    );
+
+    if (!response.ok) throw new Error('Failed to fetch');
+
+    const data = await response.json();
+    state.items = data;
+    console.log(`Updated to ${data.length} items`);
+
+    btn.innerHTML = '<i class="ti ti-check"></i> Up to date';
+    setTimeout(() => {
+      btn.innerHTML = '<i class="ti ti-download"></i> Update';
+      btn.disabled = false;
+    }, 2000);
+
+  } catch (err) {
+    console.error('Update failed:', err);
+    btn.innerHTML = '<i class="ti ti-x"></i> Failed';
+    setTimeout(() => {
+      btn.innerHTML = '<i class="ti ti-download"></i> Update';
+      btn.disabled = false;
+    }, 2000);
   }
 }
 

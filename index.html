@@ -677,7 +677,7 @@
             </div>
           </div>
 
-          <div class="filters-section">
+<div class="filters-section">
             <button class="filters-toggle" onclick="toggleDefaultFilters()">
               <i class="ti ti-chevron-right" id="default-filters-icon"></i>
               <span class="form-section-title" style="margin: 0;">Filters</span>
@@ -697,7 +697,7 @@
             </div>
           </div>
         </div>
-      </div>
+      </div> <!-- end defaults form-card -->
 
       <div class="form-card">
         <p class="form-section-title">Data</p>
@@ -707,9 +707,9 @@
             <p class="settings-row-title">Update item database</p>
             <p class="settings-row-sub">Download the latest items.json from GitHub</p>
           </div>
-          <button class="btn-primary">
-            <i class="ti ti-download"></i> Update
-          </button>
+            <button class="btn-primary" onclick="updateItemDatabase()">
+              <i class="ti ti-download"></i> Update
+            </button>
         </div>
 
         <div class="settings-row">
