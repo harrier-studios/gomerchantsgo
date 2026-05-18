@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Merchants</title>
+  <title>Go! Merchants Go!</title>
 
   <!-- Fonts -->
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@600&family=Questrial&display=swap" rel="stylesheet" />
@@ -23,7 +23,7 @@
       <div class="home-header">
         <div class="home-title">
           <p class="home-eyebrow">Pathfinder 2E</p>
-          <h1>Merchants</h1>
+          <h1>Go! Merchants Go! 0.9</h1>
           <p class="home-subtitle">GM Toolkit</p>
         </div>
         <button class="theme-toggle" aria-label="Toggle theme" onclick="cycleTheme()">
@@ -559,11 +559,7 @@
           <h1>Settings</h1>
           <p class="screen-subtitle">App preferences and data management</p>
         </div>
-        <div class="screen-header-right">
-          <button class="btn-primary" id="save-settings-btn" onclick="saveSettings()">
-            <i class="ti ti-device-floppy"></i> Save Defaults
-          </button>
-        </div>
+        <div class="screen-header-right"></div>
       </div>
 
       <div class="form-card">
@@ -583,8 +579,13 @@
       </div>
 
       <div class="form-card">
-        <p class="form-section-title">Defaults</p>
-        <p style="font-size: 12px; color: var(--text-muted); margin-bottom: 1.25rem;">These values pre-fill the generator form. You can still change them per merchant.</p>
+  <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.25rem;">
+    <p class="form-section-title" style="margin-bottom: 0;">Defaults</p>
+    <button class="btn-primary" id="save-settings-btn" onclick="saveSettings()">
+      <i class="ti ti-device-floppy"></i> Save Defaults
+    </button>
+  </div>
+  <p style="font-size: 12px; color: var(--text-muted); margin-bottom: 1.25rem;">These values pre-fill the generator form. You can still change them per merchant.</p>
         <div class="field-grid" style="margin-bottom: 16px;">
           <div class="field-group">
             <label class="field-label">Settlement size</label>

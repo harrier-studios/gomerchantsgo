@@ -966,7 +966,7 @@ h1 {
 
 /* ─── Back Button ─────────────────────────────────────────── */
 
-#back-btn {
+.back-btn {
   font-family: 'Inter', sans-serif;
   font-weight: 600;
   font-size: 13px;
@@ -982,7 +982,7 @@ h1 {
   margin-bottom: 0;
 }
 
-#back-btn:hover {
+.back-btn:hover {
   border-color: var(--text-muted);
   color: var(--text-primary);
 }
