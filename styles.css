@@ -1047,3 +1047,38 @@ h1 {
     --text-dimmed: #9CA3AF;
   }
 }
+
+/* ─── Update Notice ───────────────────────────────────────── */
+
+#update-notice {
+  margin-top: 1.5rem;
+  padding: 10px 14px;
+  background: #1A2A33;
+  border: 0.5px solid #5B7F95;
+  border-radius: 8px;
+}
+
+#update-notice a {
+  color: #5B7F95;
+  text-decoration: none;
+  font-family: 'Inter', sans-serif;
+  font-weight: 600;
+}
+
+#update-notice a:hover {
+  text-decoration: underline;
+}
+
+.update-notice-text {
+  font-size: 13px;
+  color: var(--text-muted);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.update-notice-text i {
+  color: #5B7F95;
+  font-size: 15px;
+  flex-shrink: 0;
+}

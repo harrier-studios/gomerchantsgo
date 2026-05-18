@@ -60,6 +60,7 @@ async function init() {
   loadUserItems();
   applySettingsToForm(loadSettings());
   initTheme();
+  checkForUpdates();
 }
 
 async function loadItems() {
@@ -1183,6 +1184,26 @@ function updateSettingsThemeBtn(theme) {
   if (theme === 'light') btns[0]?.classList.add('active');
   if (theme === 'system') btns[1]?.classList.add('active');
   if (theme === 'dark') btns[2]?.classList.add('active');
+}
+
+// ─── Version Check ────────────────────────────────────────
+
+const CURRENT_VERSION = '0.9';
+
+async function checkForUpdates() {
+  try {
+    const response = await fetch(
+      'https://raw.githubusercontent.com/yourusername/merchants/main/data/version.json',
+      { cache: 'no-store' }
+    );
+    if (!response.ok) return;
+    const data = await response.json();
+    if (data.version !== CURRENT_VERSION) {
+      document.getElementById('update-notice').style.display = 'block';
+    }
+  } catch (err) {
+    // Silently fail — no internet or repo not found, no big deal
+  }
 }
 
 // ─── Start the app ────────────────────────────────────────
