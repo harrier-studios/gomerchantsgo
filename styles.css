@@ -153,8 +153,26 @@ h1 {
   justify-content: space-between;
   align-items: center;
   margin-bottom: 1.75rem;
+  gap: 16px;
 }
 
+.screen-header-title {
+  flex: 1;
+  text-align: center;
+}
+
+.screen-header-left {
+  min-width: 100px;
+  display: flex;
+  align-items: center;
+}
+
+.screen-header-right {
+  min-width: 100px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+}
 .screen-subtitle {
   font-size: 13px;
   color: var(--text-muted);
@@ -961,7 +979,7 @@ h1 {
   gap: 6px;
   padding: 7px 14px;
   border-radius: 8px;
-  margin-bottom: 1.25rem;
+  margin-bottom: 0;
 }
 
 #back-btn:hover {

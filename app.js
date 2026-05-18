@@ -1095,11 +1095,13 @@ function importData(type) {
 // ─── Reset ────────────────────────────────────────────────
 
 function resetAllData() {
-  if (!confirm('This will permanently delete all your merchants and custom items. This cannot be undone. Are you sure?')) return;
+  if (!confirm('This will permanently delete all your merchants, custom items, and saved settings. This cannot be undone. Are you sure?')) return;
   state.merchants = [];
   state.userItems = [];
   saveMerchants();
   saveUserItems();
+  localStorage.removeItem('settings');
+  applySettingsToForm(DEFAULT_SETTINGS);
   renderMerchantsList();
   renderUserItemsList();
   alert('All data has been reset.');
