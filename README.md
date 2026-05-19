@@ -1,4 +1,4 @@
-# Go Merchant Go
+# Go! Merchant Go!
 Go Merchant Go (GMG) is a lightning fast, offline, vendor creation tool for Paizo's Pathfinder 2nd Edition that removes the need to spend your precious time poring through multiple sources to find interesting and relevant items for your players to derail your game with. Paizo's 5600+ item catalog is already included. That means you'll find old classics like, "Longsword," and "Lesser Healing Potion," plus a ton of kit you didn't even know existed.
 
 You can use Go Merchant Go as part of your pre-session planning, or on the fly. It's dead simple to use and crazy fast, and again, it comes with the entire Pathfinder 2nd Edition item catalog built in; no more importing items yourself to make your merchant app work. You can even modify existing items, or create your own from scratch.
