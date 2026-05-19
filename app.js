@@ -668,7 +668,7 @@ function renderExistingItems() {
       <span class="col-bulk row-meta">${formatBulk(item.bulk)}</span>
       <span class="col-price row-meta">${formatPrice(item.price)}</span>
       <span class="col-rarity">
-        <span class="badge ${badgeClass(item.rarity)}">${item.rarity || '—'}</span>
+        <span class="badge ${badgeClass(item.rarity)}">${capitalise(item.rarity) || '—'}</span>
       </span>
     </div>
   `).join('');
@@ -987,12 +987,13 @@ function renderMerchantsList() {
     ${state.merchants.map(merchant => {
       const s = merchant.generatorSettings;
       const maxLevel = SETTLEMENT_LEVEL[s.settlementSize] || '—';
-      const rarity = s.rarity.length === 4 ? 'All' : s.rarity.map(capitalise).join(', ');
       const ancestryDisplay = s.ancestry && s.ancestry !== 'any' ? capitalise(s.ancestry) : '—';
       const storeDisplay = capitalise(s.storeType.replace(/-/g, ' '));
       const settlementDisplay = capitalise(s.settlementSize);
       const economyDisplay = capitalise(s.economy.replace(/-/g, ' '));
-      const rarityBadge = s.rarity[0] || 'common';
+      const rarityBadges = s.rarity.length === 4
+        ? '<span class="badge badge-common">All</span>'
+        : s.rarity.map(r => `<span class="badge badge-${r}">${capitalise(r)}</span>`).join('');
 
 return `
   <div class="list-row grid-merchants" onclick="openMerchant('${merchant.id}')">
@@ -1002,7 +1003,7 @@ return `
     <span class="col-detail row-meta">${settlementDisplay}</span>
     <span class="col-detail row-meta">${economyDisplay}</span>
     <span class="col-detail row-meta">1–${maxLevel}</span>
-    <span class="col-rarity"><span class="badge badge-${rarityBadge}">${rarity}</span></span>
+    <span class="col-rarity">${rarityBadges}</span>
     <span class="col-action"><button class="btn-delete" onclick="deleteMerchant(event, '${merchant.id}')">
       <i class="ti ti-trash"></i>
     </button></span>
@@ -1058,7 +1059,7 @@ function renderUserItemsList() {
         <span class="col-level row-meta">${item.level ?? '—'}</span>
         <span class="col-bulk row-meta">${formatBulk(item.bulk)}</span>
         <span class="col-price row-meta">${typeof item.price === 'string' ? item.price : formatPrice(item.price)}</span>
-        <span class="col-rarity"><span class="badge ${badgeClass(item.rarity)}">${item.rarity || '—'}</span></span>
+        <span class="col-rarity"><span class="badge ${badgeClass(item.rarity)}">${capitalise(item.rarity) || '—'}</span></span>
         <span class="col-action"><button class="btn-delete" onclick="deleteUserItem(event, '${item.id}')">
           <i class="ti ti-trash"></i>
         </button></span>

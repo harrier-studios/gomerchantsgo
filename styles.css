@@ -281,7 +281,7 @@ h1 {
 
 /* Custom Items list: Name | Type | Level | Bulk | Price | Rarity | action */
 .grid-custom-items {
-  grid-template-columns: 3fr 1fr 50px 50px 90px 80px 28px;
+  grid-template-columns: 3fr 100px 50px 50px 80px 80px 28px;
 }
 
 /* Create From Existing list: Name | Type | Level | Bulk | Price | Rarity */
@@ -317,12 +317,14 @@ h1 {
   text-align: center;
 }
 
-.col-price {
-  text-align: right;
-}
+
 
 .col-rarity {
   white-space: normal;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 3px;
+  align-content: flex-start;
 }
 
 /* ─── Row Content ─────────────────────────────────────────── */
@@ -346,9 +348,7 @@ h1 {
   text-align: center;
 }
 
-.col-price.row-meta {
-  text-align: right;
-}
+
 
 .muted {
   color: var(--text-muted);
@@ -366,7 +366,7 @@ h1 {
 }
 
 .badge-common    { background: #0D3D2E; color: #1D9E75; }
-.badge-uncommon  { background: #1A2A33; color: #5B7F95; }
+.badge-uncommon  { background: #283f4d; color: #5B7F95; }
 .badge-rare      { background: #332A12; color: #A07820; }
 .badge-unique    { background: #2A1A3D; color: #8B5CF6; }
 
@@ -1047,4 +1047,17 @@ h1 {
   color: #5B7F95;
   font-size: 15px;
   flex-shrink: 0;
+}
+
+.grid-custom-items .col-price {
+  text-align: left;
+}
+
+.grid-custom-items .col-level,
+.grid-custom-items .col-bulk {
+  text-align: left;
+}
+
+.grid-custom-items .col-rarity {
+  display: block;
 }
