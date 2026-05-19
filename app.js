@@ -1049,7 +1049,7 @@ function saveMerchants() {
 function renderMerchantsList() {
   const container = document.getElementById('merchants-list');
   const count = document.getElementById('merchants-count');
-  count.textContent = `${state.merchants.length} saved`;
+  count.textContent = `${state.merchants.length} merchant${state.merchants.length !== 1 ? 's' : ''} saved`;
 
   if (state.merchants.length === 0) {
     container.innerHTML = `
