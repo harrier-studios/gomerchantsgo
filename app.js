@@ -223,12 +223,11 @@ const ECONOMY_CONFIG = {
 const STORE_TYPES = {
   'any':          { types: [],                             traits: [] },
   'blacksmith':   { types: ['weapon', 'armor', 'shield'], traits: [] },
-  'bowyer':       { types: ['ammo'],                      traits: ['bow', 'crossbow', 'ranged'] },
   'alchemist':    { types: ['consumable'],                traits: ['alchemical', 'bomb', 'poison', 'elixir', 'mutagen'] },
   'arcane-goods': { types: [],                            traits: ['magical', 'arcane', 'scroll', 'wand', 'staff'] },
   'divine-goods': { types: [],                            traits: ['divine', 'holy', 'unholy', 'healing'] },
   'general-store':{ types: ['equipment', 'consumable'],   traits: [] },
-  'gunsmith':     { types: [],                            traits: ['firearm'] }
+  'ranged':       { types: ['ammo'],                      traits: ['bow', 'crossbow', 'ranged', 'firearm'] },
 };
 
 const STOCKING_STYLE = {
@@ -982,17 +981,6 @@ function toggleDefaultFilters() {
   const isOpen = body.classList.contains('open');
   body.classList.toggle('open');
   icon.className = isOpen ? 'ti ti-chevron-right' : 'ti ti-chevron-down';
-}
-
-function copyPath() {
-  const path = document.getElementById('data-path').textContent;
-  navigator.clipboard.writeText(path).then(() => {
-    const btn = document.querySelector('.btn-copy');
-    btn.innerHTML = '<i class="ti ti-check"></i> Copied';
-    setTimeout(() => {
-      btn.innerHTML = '<i class="ti ti-copy"></i> Copy';
-    }, 1500);
-  });
 }
 
 function formatPriceModifier(val, displayId) {
