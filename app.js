@@ -497,18 +497,67 @@ function sortItems(items) {
   });
 }
 
-function renderItemRow(item) {
+function renderDescriptionPanel(item) {
+  const meta = [
+    item.type     ? { label: 'Type',     value: capitalise(item.type) }     : null,
+    item.category ? { label: 'Category', value: capitalise(item.category) } : null,
+    item.level != null ? { label: 'Level', value: item.level }              : null,
+    item.bulk != null  ? { label: 'Bulk',  value: formatBulk(item.bulk) }   : null,
+    item.price    ? { label: 'Price',    value: formatPrice(item.price) }   : null,
+    item.source   ? { label: 'Source',   value: item.source }               : null,
+  ].filter(Boolean);
+
+  const traits = (item.traits || []).filter(t => t !== 'firearm' || true);
+  const description = item.description ? cleanDescription(item.description) : null;
+
   return `
-    <div class="list-row grid-inventory">
-      <span class="col-item-name row-title">${item.name}</span>
-      <span class="col-qty row-meta">${item.quantity}</span>
-      <span class="col-level row-meta">${item.level ?? '—'}</span>
-      <span class="col-bulk row-meta">${formatBulk(item.bulk)}</span>
-      <span class="col-price row-meta">${formatPrice(item.price)}</span>
-      <span class="col-rarity"><span class="badge ${badgeClass(item.rarity)}">${capitalise(item.rarity) || '—'}</span></span>
+    <div class="item-description">
+      <div class="item-description-inner">
+        ${meta.length ? `
+          <div class="item-desc-meta">
+            ${meta.map(f => `
+              <div class="item-desc-field">
+                <span class="item-desc-label">${f.label}</span>
+                <span class="item-desc-value">${f.value}</span>
+              </div>
+            `).join('')}
+          </div>` : ''}
+        ${traits.length ? `
+          <div class="item-desc-traits">
+            ${traits.map(t => `<span class="badge badge-${badgeClass(t) ? '' : 'common'}">${capitalise(t)}</span>`).join('')}
+          </div>` : ''}
+        ${description
+          ? `<p class="item-desc-text">${description}</p>`
+          : `<p class="item-desc-empty">No description available.</p>`}
+      </div>
     </div>`;
 }
 
+function toggleDescription(row) {
+  const wrapper = row.closest('.item-wrapper');
+  const panel = wrapper.querySelector('.item-description');
+  const isOpen = panel.classList.contains('open');
+
+  // Close any other open panels first
+  document.querySelectorAll('.item-description.open').forEach(p => p.classList.remove('open'));
+
+  if (!isOpen) panel.classList.add('open');
+}
+
+function renderItemRow(item) {
+  return `
+    <div class="item-wrapper">
+      <div class="list-row grid-inventory" onclick="toggleDescription(this)">
+        <span class="col-item-name row-title">${item.name}</span>
+        <span class="col-qty row-meta">${item.quantity}</span>
+        <span class="col-level row-meta">${item.level ?? '—'}</span>
+        <span class="col-bulk row-meta">${formatBulk(item.bulk)}</span>
+        <span class="col-price row-meta">${formatPrice(item.price)}</span>
+        <span class="col-rarity"><span class="badge ${badgeClass(item.rarity)}">${capitalise(item.rarity) || '—'}</span></span>
+      </div>
+      ${renderDescriptionPanel(item)}
+    </div>`;
+}
 function renderInventory(inventory) {
   const container = document.getElementById('result-inventory');
 
@@ -733,15 +782,18 @@ function renderExistingItems() {
   }
 
   container.innerHTML = sorted.slice(0, 200).map(item => `
-    <div class="list-row grid-existing-items" onclick="selectExistingItem(this, '${item.id}')">
-      <span class="col-item-name row-title">${item.name}</span>
-      <span class="col-detail row-meta">${capitalise(item.type) || '—'}</span>
-      <span class="col-level row-meta">${item.level ?? '—'}</span>
-      <span class="col-bulk row-meta">${formatBulk(item.bulk)}</span>
-      <span class="col-price row-meta">${formatPrice(item.price)}</span>
-      <span class="col-rarity">
-        <span class="badge ${badgeClass(item.rarity)}">${capitalise(item.rarity) || '—'}</span>
-      </span>
+    <div class="item-wrapper">
+      <div class="list-row grid-existing-items" onclick="selectExistingItem(this, '${item.id}'); toggleDescription(this)">
+        <span class="col-item-name row-title">${item.name}</span>
+        <span class="col-detail row-meta">${capitalise(item.type) || '—'}</span>
+        <span class="col-level row-meta">${item.level ?? '—'}</span>
+        <span class="col-bulk row-meta">${formatBulk(item.bulk)}</span>
+        <span class="col-price row-meta">${formatPrice(item.price)}</span>
+        <span class="col-rarity">
+          <span class="badge ${badgeClass(item.rarity)}">${capitalise(item.rarity) || '—'}</span>
+        </span>
+      </div>
+      ${renderDescriptionPanel(item)}
     </div>
   `).join('');
 }
@@ -1112,19 +1164,22 @@ function renderUserItemsList() {
       <span class="col-action"></span>
     </div>
     ${state.userItems.map(item => `
-      <div class="list-row grid-custom-items" onclick="editUserItem('${item.id}')">
-        <span class="col-item-name row-title">
-          ${item.name}
-          ${item.sourceId ? '<i class="ti ti-tool" style="font-size: 12px; color: #5B7F95; margin-left: 4px;" title="Modified from existing item"></i>' : ''}
-        </span>
-        <span class="col-detail row-meta">${capitalise(item.type) || '—'}</span>
-        <span class="col-level row-meta">${item.level ?? '—'}</span>
-        <span class="col-bulk row-meta">${formatBulk(item.bulk)}</span>
-        <span class="col-price row-meta">${typeof item.price === 'string' ? item.price : formatPrice(item.price)}</span>
-        <span class="col-rarity"><span class="badge ${badgeClass(item.rarity)}">${capitalise(item.rarity) || '—'}</span></span>
-        <span class="col-action"><button class="btn-delete" onclick="deleteUserItem(event, '${item.id}')">
-          <i class="ti ti-trash"></i>
-        </button></span>
+      <div class="item-wrapper">
+        <div class="list-row grid-custom-items" onclick="toggleDescription(this)">
+          <span class="col-item-name row-title">
+            ${item.name}
+            ${item.sourceId ? '<i class="ti ti-tool" style="font-size: 12px; color: #5B7F95; margin-left: 4px;" title="Modified from existing item"></i>' : ''}
+          </span>
+          <span class="col-detail row-meta">${capitalise(item.type) || '—'}</span>
+          <span class="col-level row-meta">${item.level ?? '—'}</span>
+          <span class="col-bulk row-meta">${formatBulk(item.bulk)}</span>
+          <span class="col-price row-meta">${typeof item.price === 'string' ? item.price : formatPrice(item.price)}</span>
+          <span class="col-rarity"><span class="badge ${badgeClass(item.rarity)}">${capitalise(item.rarity) || '—'}</span></span>
+          <span class="col-action"><button class="btn-delete" onclick="event.stopPropagation(); deleteUserItem(event, '${item.id}')">
+            <i class="ti ti-trash"></i>
+          </button></span>
+        </div>
+        ${renderDescriptionPanel(item)}
       </div>
     `).join('')}
   `;
@@ -1329,21 +1384,30 @@ function updateSettingsThemeBtn(theme) {
 
 // ─── Version Check ────────────────────────────────────────
 
-const CURRENT_VERSION = '0.9';
-
 async function checkForUpdates() {
   try {
-    const response = await fetch(
+    // Get local version first
+    const localResponse = await fetch('data/version.json');
+    const localData = await localResponse.json();
+    const localVersion = localData.version;
+
+    // Update version display in title
+    const versionEl = document.getElementById('app-version');
+    if (versionEl) versionEl.textContent = `v${localVersion}`;
+
+    // Compare against GitHub's latest
+    const remoteResponse = await fetch(
       'https://raw.githubusercontent.com/codeguy1134/gomerchantgo/main/data/version.json',
       { cache: 'no-store' }
     );
-    if (!response.ok) return;
-    const data = await response.json();
-    if (data.version !== CURRENT_VERSION) {
+    if (!remoteResponse.ok) return;
+    const remoteData = await remoteResponse.json();
+
+    if (remoteData.version !== localVersion) {
       document.getElementById('update-notice').style.display = 'block';
     }
   } catch (err) {
-    // Silently fail — no internet or repo not found, no big deal
+    // Silently fail
   }
 }
 

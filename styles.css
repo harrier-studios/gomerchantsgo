@@ -972,6 +972,88 @@ h1 {
   color: #E24B4A;
 }
 
+/* ─── Item Description Dropdown ──────────────────────────── */
+
+.item-wrapper {
+  border-bottom: 0.5px solid var(--border);
+}
+
+.item-wrapper:last-child {
+  border-bottom: none;
+}
+
+.item-wrapper .list-row {
+  border-bottom: none;
+}
+
+.item-description {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.3s ease, padding 0.3s ease;
+  padding: 0 4px;
+}
+
+.item-description.open {
+  max-height: 600px;
+  padding: 8px 4px 12px;
+}
+
+.item-description-inner {
+  border-top: 0.5px solid var(--border);
+  padding-top: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.item-desc-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 16px;
+}
+
+.item-desc-field {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.item-desc-label {
+  font-family: 'Inter', sans-serif;
+  font-weight: 600;
+  font-size: 10px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+.item-desc-value {
+  font-family: 'Questrial', sans-serif;
+  font-size: 13px;
+  color: var(--text-secondary);
+}
+
+.item-desc-traits {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+
+.item-desc-text {
+  font-family: 'Questrial', sans-serif;
+  font-size: 13px;
+  color: var(--text-secondary);
+  line-height: 1.6;
+  white-space: pre-wrap;
+}
+
+.item-desc-empty {
+  font-family: 'Questrial', sans-serif;
+  font-size: 13px;
+  color: var(--text-muted);
+  font-style: italic;
+}
+
 /* ─── Themes ──────────────────────────────────────────────── */
 
 /* Dark theme (default) */
