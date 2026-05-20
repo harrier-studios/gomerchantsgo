@@ -1706,16 +1706,28 @@ async function updateItemDatabase() {
   btn.disabled = true;
 
   try {
-    const response = await fetch(
-      'https://raw.githubusercontent.com/codeguy1134/gomerchantgo/main/data/items.json',
-      { cache: 'no-store' }
-    );
+    const [itemsResponse, firearmsResponse] = await Promise.all([
+      fetch('https://raw.githubusercontent.com/codeguy1134/gomerchantgo/main/data/items.json', { cache: 'no-store' }),
+      fetch('https://raw.githubusercontent.com/codeguy1134/gomerchantgo/main/data/firearms.json', { cache: 'no-store' })
+    ]);
 
-    if (!response.ok) throw new Error('Failed to fetch');
+    if (!itemsResponse.ok) throw new Error('Failed to fetch items.json');
+    if (!firearmsResponse.ok) throw new Error('Failed to fetch firearms.json');
 
-    const data = await response.json();
-    state.items = data;
-    console.log(`Updated to ${data.length} items`);
+    const items = await itemsResponse.json();
+    const firearmNames = await firearmsResponse.json();
+
+    // Patch firearm traits onto fresh item data
+    const nameSet = new Set(firearmNames.map(n => n.toLowerCase()));
+    items.forEach(item => {
+      if (nameSet.has(item.name?.toLowerCase())) {
+        if (!item.traits) item.traits = [];
+        if (!item.traits.includes('firearm')) item.traits.push('firearm');
+      }
+    });
+
+    state.items = items;
+    console.log(`Updated to ${items.length} items, ${firearmNames.length} firearms patched`);
 
     btn.innerHTML = '<i class="ti ti-check"></i> Up to date';
     setTimeout(() => {
