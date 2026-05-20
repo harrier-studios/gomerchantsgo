@@ -42,7 +42,7 @@ The Merchants tab lists all your saved merchants. Hit **New Merchant** to open t
 - **Settlement size** — controls the maximum item level (Village → 4, Town → 8, City → 14, Metropolis → 20)
 - **Economy** — influences item quantity and category bias (Trade Hub, Academic, Arcane, Divine, Military, Frontier)
 - **Ancestry** — filters items to those with matching ancestry traits
-- **Store type** — focuses the inventory (Blacksmith, Alchemist, Arcane Goods, Divine Goods, General Store, Ranged Weapons, Gunsmith, or Any)
+- **Store type** — focuses the inventory (Blacksmith, Alchemist, Arcane Goods, Divine Goods, General Store, Ranged Weapons, or Any)
 - **Stocking style** — controls the number and quality of items (Broad, Focused, or Curated)
 - **Arcane tilt** — weights the pool toward magical or mundane items
 - **Pricing modifier** — adjusts displayed prices from −50% to +100%
@@ -106,30 +106,25 @@ The repo is currently private while the app is in early development. Contributio
 
 ### ORC Notice
 
-This product is licensed under the ORC License to be held in the Library of Congress and available online at [paizo.com/orclicense](https://paizo.com/orclicense), [azoralaw.com/orclicense](https://azoralaw.com/orclicense), and others. All warranties are disclaimed as set forth therein.
-
-If you use our Licensed Material in your own published work, please credit us as follows:
-
-*Go! Merchants Go! © 2025, Harrier Studios.*
+This product is licensed under the ORC License located at the Library of Congress at TX 9-307-067 and available online at [paizo.com/orclicense](https://paizo.com/orclicense), [azoralaw.com/orclicense](https://azoralaw.com/orclicense), and others. All warranties are disclaimed as set forth therein.
 
 ### Attribution Notice
 
-This product uses Licensed Material from the following upstream sources:
+This product is based on Licensed Material from the Pathfinder Second Edition product line, © Paizo Inc. The item data included in Go! Merchants Go! is drawn from across the full range of Pathfinder 2nd Edition publications. For the complete list of Paizo publications and their associated authors and copyright notices, visit [paizo.com](https://paizo.com).
 
-- *Pathfinder Player Core* © 2023 Paizo Inc. Designed by Logan Bonner, Jason Bulmahn, Stephen Radney-MacFarland, and Mark Seifter.
-- *Pathfinder GM Core* © 2023 Paizo Inc. Designed by Logan Bonner and Mark Seifter.
-- *Pathfinder Player Core 2* © 2024 Paizo Inc.
+Paizo, the Paizo golem logo, Pathfinder, and the Pathfinder logo are trademarks of Paizo Inc. Go! Merchants Go! is not published, endorsed, or specifically approved by Paizo Inc.
 
-Paizo, the Paizo golem logo, Pathfinder, and the Pathfinder logo are trademarks of Paizo Inc. Go! Merchants Go! is not published, endorsed, or specifically approved by Paizo Inc. For more information about Paizo products, visit [paizo.com](https://paizo.com).
+If you use our Licensed Material in your own published work, please credit us as follows:
+
+*Go! Merchants Go! © 2026, Harrier Studios.*
 
 ### Reserved Material
 
-The following elements are designated as Reserved Material under the ORC License and are the exclusive property of Harrier Studios: the name "Go! Merchants Go!", the name "Harrier Studios", and all original application code, design, and visual assets not derived from Paizo Licensed Material.
+Reserved Material elements in this product include, but may not be limited to: the name "Go! Merchants Go!", the name "Harrier Studios", and all original application code, design, and visual assets not derived from Paizo Licensed Material.
 
-### Product Identity Notice
+### Expressly Designated Licensed Material
 
-The Pathfinder item data included in this application (item names, statistics, traits, descriptions, and related mechanical content) is used under the ORC License as Licensed Material. Original application code and tooling are copyright © 2025 Harrier Studios, all rights reserved.
-
+This product contains no Expressly Designated Licensed Material.
 ---
 
 *Made with too much coffee by Harrier Studios.*
