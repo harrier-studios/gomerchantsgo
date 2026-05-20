@@ -67,6 +67,10 @@ function cleanDescription(html) {
   return clean;
 }
 
+function formatTrait(trait) {
+  return trait.replace(/-/g, ' ');
+}
+
 let currentEditItem = null;
 
 // ─── Data Loading ─────────────────────────────────────────
@@ -308,11 +312,11 @@ function buildMerchant(config) {
     const itemTraitsLower = (item.traits || []).map(t => t.toLowerCase());
 
     if (includeTags.length > 0) {
-      if (!includeTags.some(t => itemTraitsLower.includes(t))) return false;
+      if (!includeTags.some(t => itemTraitsLower.includes(t.replace(/\s+/g, '-')))) return false;
     }
 
     if (excludeTags.length > 0) {
-      if (excludeTags.some(t => itemTraitsLower.includes(t))) return false;
+      if (excludeTags.some(t => itemTraitsLower.includes(t.replace(/\s+/g, '-')))) return false;
     }
 
     return true;
@@ -576,7 +580,7 @@ function renderDescriptionPanel(item) {
           </div>` : ''}
         ${traits.length ? `
           <div class="item-desc-traits">
-            ${traits.map(t => `<span class="badge badge-trait">${capitalise(t)}</span>`).join('')}
+            ${traits.map(t => `<span class="badge badge-trait">${capitalise(formatTrait(t))}</span>`).join('')}
           </div>` : ''}
         ${description
           ? `<p class="item-desc-text">${description}</p>`
