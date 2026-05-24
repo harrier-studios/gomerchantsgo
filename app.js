@@ -709,7 +709,7 @@ function removeEditRow(btn, itemId) {
 function resolveInventory(inventory) {
   const resolved = [];
   inventory.forEach(({ id, quantity }) => {
-    const item = state.items.find(i => i.id === id);
+    const item = state.items.find(i => i.id === id) || state.userItems.find(i => i.id === id);
     if (item) resolved.push({ ...item, quantity });
   });
   return resolved;
@@ -988,17 +988,20 @@ function filterModalItems() {
   const typeFilter   = typeBtn   ? typeBtn.textContent.trim()   : 'Any';
   const rarityFilter = rarityBtn ? rarityBtn.textContent.trim() : 'Any';
 
-  const filtered = state.items.filter(item => {
+  function matchesFilters(item) {
     if (search && !item.name.toLowerCase().includes(search)) return false;
     if (typeFilter   !== 'Any' && item.type?.toLowerCase()   !== typeFilter.toLowerCase())   return false;
     if (rarityFilter !== 'Any' && item.rarity?.toLowerCase() !== rarityFilter.toLowerCase()) return false;
     return true;
-  });
+  }
+
+  const filteredStandard = state.items.filter(matchesFilters);
+  const filteredUser     = state.userItems.filter(matchesFilters);
 
   const container = document.getElementById('modal-items-list');
-  const notice = document.getElementById('modal-items-notice');
+  const notice    = document.getElementById('modal-items-notice');
 
-  if (filtered.length === 0) {
+  if (filteredStandard.length === 0 && filteredUser.length === 0) {
     notice.style.display = 'none';
     container.innerHTML = `
       <div class="empty-state">
@@ -1009,25 +1012,46 @@ function filterModalItems() {
     return;
   }
 
-  if (filtered.length > 200) {
-    notice.innerHTML = `<i class="ti ti-info-circle"></i> Showing 200 of ${filtered.length} results — refine your search to see more`;
+  const cappedStandard = filteredStandard.slice(0, 200);
+  const truncated = filteredStandard.length > 200;
+
+  if (truncated) {
+    notice.innerHTML = `<i class="ti ti-info-circle"></i> Showing 200 of ${filteredStandard.length} results — refine your search to see more`;
     notice.style.display = '';
   } else {
     notice.style.display = 'none';
   }
 
-  container.innerHTML = filtered.slice(0, 200).map(item => `
-    <div class="list-row grid-existing-items modal-item-row" onclick="selectModalItem(this, '${item.id}')">
-      <span class="col-item-name row-title">${item.name}</span>
-      <span class="col-detail row-meta">${capitalise(item.type) || '—'}</span>
-      <span class="col-level row-meta">${item.level ?? '—'}</span>
-      <span class="col-bulk row-meta">${formatBulk(item.bulk)}</span>
-      <span class="col-price row-meta">${formatPrice(item.price)}</span>
-      <span class="col-rarity">
-        <span class="badge ${badgeClass(item.rarity)}">${capitalise(item.rarity) || '—'}</span>
-      </span>
-    </div>
-  `).join('');
+  function renderModalRow(item, isUser) {
+    const icon = isUser
+      ? (item.sourceId
+          ? `<i class="ti ti-tool" style="font-size:12px;color:#5B7F95;margin-left:4px;" title="Modified from existing item"></i>`
+          : `<i class="ti ti-sparkle-highlight" style="font-size:12px;color:#5B7F95;margin-left:4px;" title="Homebrew item"></i>`)
+      : '';
+    return `
+      <div class="list-row grid-existing-items modal-item-row" onclick="selectModalItem(this, '${item.id}')">
+        <span class="col-item-name row-title">${item.name}${icon}</span>
+        <span class="col-detail row-meta">${capitalise(item.type) || '—'}</span>
+        <span class="col-level row-meta">${item.level ?? '—'}</span>
+        <span class="col-bulk row-meta">${formatBulk(item.bulk)}</span>
+        <span class="col-price row-meta">${formatPrice(item.price)}</span>
+        <span class="col-rarity">
+          <span class="badge ${badgeClass(item.rarity)}">${capitalise(item.rarity) || '—'}</span>
+        </span>
+      </div>`;
+  }
+
+  const userSection = filteredUser.length > 0 ? `
+    <p class="category-heading">Homebrew</p>
+    ${filteredUser.map(i => renderModalRow(i, true)).join('')}
+  ` : '';
+
+  const standardSection = cappedStandard.length > 0 ? `
+    ${filteredUser.length > 0 ? '<p class="category-heading">Standard</p>' : ''}
+    ${cappedStandard.map(i => renderModalRow(i, false)).join('')}
+  ` : '';
+
+  container.innerHTML = userSection + standardSection;
 }
 
 function setModalFilter(btn, group) {
@@ -1039,7 +1063,7 @@ function setModalFilter(btn, group) {
 function selectModalItem(row, itemId) {
   document.querySelectorAll('#modal-items-list .modal-item-row').forEach(r => r.classList.remove('selected'));
   row.classList.add('selected');
-  modalSelectedItem = state.items.find(i => i.id === itemId);
+  modalSelectedItem = state.items.find(i => i.id === itemId) || state.userItems.find(i => i.id === itemId);
   document.getElementById('modal-selected-name').textContent = modalSelectedItem?.name || '—';
   document.getElementById('modal-qty-controls').style.visibility = 'visible';
   document.getElementById('modal-confirm-btn').disabled = false;
@@ -1133,9 +1157,10 @@ function renderExistingItems() {
   });
 
   const container = document.getElementById('existing-items-list');
+  const notice = document.getElementById('existing-items-notice');
 
   if (filtered.length === 0) {
-    document.getElementById('existing-items-notice').style.display = 'none';
+    notice.style.display = 'none';
     container.innerHTML = `
       <div class="empty-state">
         <i class="ti ti-search"></i>
@@ -1145,7 +1170,6 @@ function renderExistingItems() {
     return;
   }
 
-  const notice = document.getElementById('existing-items-notice');
   if (sorted.length > 200) {
     notice.innerHTML = `<i class="ti ti-info-circle"></i> Showing 200 of ${sorted.length} results — refine your search to see more`;
     notice.style.display = '';
