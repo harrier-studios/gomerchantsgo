@@ -210,7 +210,18 @@ h1 {
   color: var(--text-muted);
 }
 
+.screen-title {
+  font-family: 'Inter', sans-serif;
+  font-weight: 600;
+  font-size: 16px;
+  color: var(--text-primary);
+}
+
 .screen-header-title .screen-subtitle::before {
+  content: '';
+}
+
+.screen-header-title:has(.screen-title:not([style*="display: none"])) .screen-subtitle::before {
   content: '·';
   margin-right: 8px;
   color: var(--border);

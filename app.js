@@ -557,6 +557,9 @@ function displayMerchantResult(merchant) {
   });
 
   const s = merchant.generatorSettings;
+  const nameEl = document.getElementById('result-name');
+  nameEl.textContent = merchant.name || '';
+  nameEl.style.display = merchant.name ? '' : 'none';
   document.getElementById('result-subtitle').textContent = [
     s.ancestry !== 'any' ? capitalise(s.ancestry) : null,
     capitalise(s.storeType.replace(/-/g, ' ')),
@@ -606,13 +609,14 @@ function sortItems(items) {
   });
 }
 
-function renderDescriptionPanel(item) {
+function renderDescriptionPanel(item, modifier) {
+  const mod = modifier ?? state.currentMerchant?.generatorSettings?.pricingModifier ?? 0;
   const meta = [
     item.type     ? { label: 'Type',     value: capitalise(item.type) }     : null,
     item.category ? { label: 'Category', value: capitalise(item.category) } : null,
     item.level != null ? { label: 'Level', value: item.level }              : null,
     item.bulk != null  ? { label: 'Bulk',  value: formatBulk(item.bulk) }   : null,
-    item.price    ? { label: 'Price',    value: formatPrice(item.price) }   : null,
+    item.price    ? { label: 'Price',    value: formatPriceWithModifier(item.price, mod) } : null,
     item.source   ? { label: 'Source',   value: item.source }               : null,
   ].filter(Boolean);
 
@@ -652,6 +656,7 @@ function toggleDescription(row) {
 }
 
 function renderItemRow(item) {
+  const mod = state.currentMerchant?.generatorSettings?.pricingModifier ?? 0;
   return `
     <div class="item-wrapper">
       <div class="list-row grid-inventory" onclick="toggleDescription(this)">
@@ -659,7 +664,7 @@ function renderItemRow(item) {
         <span class="col-qty row-meta">${item.quantity}</span>
         <span class="col-level row-meta">${item.level ?? '—'}</span>
         <span class="col-bulk row-meta">${formatBulk(item.bulk)}</span>
-        <span class="col-price row-meta">${formatPrice(item.price)}</span>
+        <span class="col-price row-meta">${formatPriceWithModifier(item.price, mod)}</span>
         <span class="col-rarity"><span class="badge ${badgeClass(item.rarity)}">${capitalise(item.rarity) || '—'}</span></span>
       </div>
       ${renderDescriptionPanel(item)}
@@ -667,6 +672,7 @@ function renderItemRow(item) {
 }
 
 function renderEditRow(item) {
+  const mod = state.currentMerchant?.generatorSettings?.pricingModifier ?? 0;
   return `
     <div class="item-wrapper">
       <div class="list-row grid-inventory-edit">
@@ -681,7 +687,7 @@ function renderEditRow(item) {
         </span>
         <span class="col-level row-meta">${item.level ?? '—'}</span>
         <span class="col-bulk row-meta">${formatBulk(item.bulk)}</span>
-        <span class="col-price row-meta">${formatPrice(item.price)}</span>
+        <span class="col-price row-meta">${formatPriceWithModifier(item.price, mod)}</span>
         <span class="col-rarity"><span class="badge ${badgeClass(item.rarity)}">${capitalise(item.rarity) || '—'}</span></span>
         <span class="col-action">
           <button class="btn-delete" onclick="removeEditRow(this, '${item.id}')">
@@ -1170,6 +1176,21 @@ function formatPrice(price) {
   if (price.gp) parts.push(`${price.gp} gp`);
   if (price.sp) parts.push(`${price.sp} sp`);
   if (price.cp) parts.push(`${price.cp} cp`);
+  return parts.join(' · ') || '—';
+}
+
+function formatPriceWithModifier(price, modifier) {
+  if (!price || typeof price === 'string') return formatPrice(price);
+  if (!modifier || modifier === 0) return formatPrice(price);
+  const totalCp = ((price.gp || 0) * 1000 + (price.sp || 0) * 100 + (price.cp || 0));
+  const adjusted = Math.max(1, Math.round(totalCp * (1 + modifier)));
+  const gp = Math.floor(adjusted / 1000);
+  const sp = Math.floor((adjusted % 1000) / 100);
+  const cp = adjusted % 100;
+  const parts = [];
+  if (gp) parts.push(`${gp} gp`);
+  if (sp) parts.push(`${sp} sp`);
+  if (cp) parts.push(`${cp} cp`);
   return parts.join(' · ') || '—';
 }
 
