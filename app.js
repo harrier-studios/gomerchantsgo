@@ -1180,20 +1180,16 @@ function formatPrice(price) {
   return parts.join(' · ') || '—';
 }
 
-// Applies the pricing modifier to gp/sp/cp only; pp is displayed as-is.
+// Applies the pricing modifier to each denomination independently.
 function formatPriceWithModifier(price, modifier) {
   if (!price || typeof price === 'string') return formatPrice(price);
   if (!modifier || modifier === 0) return formatPrice(price);
-  const totalCp = (price.gp || 0) * 100 + (price.sp || 0) * 10 + (price.cp || 0);
-  const adjustedCp = Math.max(totalCp > 0 ? 1 : 0, Math.round(totalCp * (1 + modifier)));
-  const gp = Math.floor(adjustedCp / 100);
-  const sp = Math.floor((adjustedCp % 100) / 10);
-  const cp = adjustedCp % 10;
+  const apply = val => val ? Math.max(1, Math.round(val * (1 + modifier))) : 0;
   const parts = [];
-  if (price.pp) parts.push(`${price.pp} pp`);
-  if (gp) parts.push(`${gp} gp`);
-  if (sp) parts.push(`${sp} sp`);
-  if (cp) parts.push(`${cp} cp`);
+  if (price.pp) parts.push(`${apply(price.pp)} pp`);
+  if (price.gp) parts.push(`${apply(price.gp)} gp`);
+  if (price.sp) parts.push(`${apply(price.sp)} sp`);
+  if (price.cp) parts.push(`${apply(price.cp)} cp`);
   return parts.join(' · ') || '—';
 }
 
